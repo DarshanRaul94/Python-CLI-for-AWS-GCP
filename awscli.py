@@ -15,24 +15,31 @@ s3 = boto3.client('s3')
 f = Figlet(font='big')
 
 
-def get_delivery_options(answers):
-    options = ['bike', 'car', 'truck']
-    if answers['size'] == 'jumbo':
-        options.append('helicopter')
+def take_action(answers):
+    options=[]
+    if answers['service'] == 'S3':
+        if answers['action'] == 'Create Bucket':
+            bucket_name=input("What is the name of the bucket you want to create")
+            s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
+    options.extend(['Create more buckets','Exit'])
     return options
 
 def get_service_data(answers):
     options = []
     if answers['service'] == 'S3':
-        print("Buckets:")
-        options.append('Create Bucket')
+        print("\n #############Buckets############ \n ")
+        options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket'])
         buckets=s3.list_buckets()
         bucketlist=[]
         for i in buckets['Buckets']:
             bucket= i['Name']
-            print(bucket)
+            print("> " +bucket)
             bucketlist.append(bucket)
-        
+
+    if answers['service'] == 'EC2':
+        print("\n #############Instances############ \n ")
+        options.extend(['Start Instance','Stop Instance'])
+             
         
     return options
 
@@ -47,13 +54,20 @@ questions = [
             'Lambda',
             Separator(),
             'S3',
-            'RDS'
+            'RDS',
+            Separator(),
+            'Route53',
+            'VPC',
+            Separator(),
+            'IAM',
+            'Cloudwatch'
+
         ]
     },
     {
         'type': 'list',
-        'name': 'size',
-        'message': 'Actions',
+        'name': 'action',
+        'message': "Actions" ,
         'choices': get_service_data
         
     },
@@ -61,7 +75,7 @@ questions = [
         'type': 'list',
         'name': 'delivery',
         'message': 'Which vehicle you want to use for delivery?',
-        'choices': get_delivery_options,
+        'choices': take_action
     },
 ]
 
@@ -72,7 +86,7 @@ questions = [
 def main():
     print (f.renderText('AWS API'))
     print('A small little CLI to interact with AWS Services')
-    print('Made with <3 by Darshan Raul ')
+    print('Made with <3 by Darshan Raul \n')
     answers = prompt(questions, style=custom_style_2)
     pprint(answers)
 
