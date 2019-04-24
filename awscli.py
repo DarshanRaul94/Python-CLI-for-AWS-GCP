@@ -42,8 +42,17 @@ def take_action(mainanswers):
             print("delete me aa")
             bucket_choices = prompt(bucket_choice, style=custom_style_2)
             pprint(bucket_choices) 
+            deletebucket(bucket_choices)
             options.extend(['Create more buckets','Exit'])
     return options
+
+
+def deletebucket(bucket_choices):
+    print("deleting bucket")
+    bucketname=bucket_choices['bucket'][0]
+    s3.delete_bucket(  Bucket=str(bucketname))
+
+
 
 
 def get_service_data(mainanswers):
@@ -103,7 +112,7 @@ bucket_choice=[{
         'type': 'checkbox',
         'qmark': '😃',
         'message': 'Select Buckets',
-        'name': 'buckets',
+        'name': 'bucket',
         #'choices': ['test1','test2'],
         'choices': bucket_list
 }
