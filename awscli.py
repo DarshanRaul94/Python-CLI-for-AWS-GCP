@@ -12,6 +12,7 @@ from pyfiglet import Figlet
 import boto3
 
 s3 = boto3.client('s3')
+iam = boto3.client('iam')
 f = Figlet(font='big')
 
 def getbuckets():
@@ -24,6 +25,26 @@ def getbuckets():
     #print(bucketlist)
     return bucketlist
 
+def getusers():
+    users=iam.list_users()
+    userlist=[]
+    
+    for user in users['Users']:
+        name=user['UserName']
+        print("> "+name)
+        userlist.append({"name":name})
+    return userlist
+
+def getgroups():
+    groups=iam.list_groups()
+    grouplist=[]
+        
+    for group in groups['Groups']:
+        name=group['GroupName']
+        print("> "+name)
+        grouplist.append({"name":name})
+
+    return grouplist
 
 def bucket_list(bucket_choices):
     bucketlist=getbuckets()
@@ -34,7 +55,7 @@ def take_action(mainanswers):
     
     if mainanswers['service'] == 'S3':
         if mainanswers['action'] == 'Create Bucket':
-            bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets)")###Need to add this functionality later (from mobile app script)
+            bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             location=input("In which region do you want to create the bucket")
             s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
             options.extend(['Create more buckets','Exit'])
@@ -43,7 +64,13 @@ def take_action(mainanswers):
             bucket_choices = prompt(bucket_choice, style=custom_style_2)
             pprint(bucket_choices) 
             deletebucket(bucket_choices)
-            options.extend(['Create more buckets','Exit'])
+            options.extend(['Delete more buckets','Exit'])
+    if mainanswers['service'] == 'IAM':
+        if mainanswers['action'] == 'Create User':
+            username=input("What is the name of the user you want to create: ")
+            print("Creating user")
+            iam.create_user( UserName=str(username))
+            options.extend(['Create More users','Exit'])
     return options
 
 
@@ -64,9 +91,16 @@ def get_service_data(mainanswers):
         
 
     
-    if mainanswers['service'] == 'EC2':
+    elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
         options.extend(['Start Instance','Stop Instance'])
+
+    elif mainanswers['service'] == 'IAM':
+        print("\n #############Users############ \n ")
+        getusers()
+        print("\n #############Groups############ \n ")
+        getgroups()
+        options.extend(['Create User','Create Group','Go Back'])
              
         
     return options
@@ -86,7 +120,7 @@ mainquestions = [
             Separator('---------Network Services---------'),
             'Route53',
             'VPC',
-            Separator(),
+            Separator('---------Management Services---------'),
             'IAM',
             'Cloudwatch'
 
@@ -118,7 +152,7 @@ bucket_choice=[{
 }
         ]
 
-print (f.renderText('AWS API'))
+print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
 mainanswers = prompt(mainquestions, style=custom_style_2)
