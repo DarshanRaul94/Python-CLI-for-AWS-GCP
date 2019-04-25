@@ -13,6 +13,7 @@ import boto3
 
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
+ec2 = boto3.client('ec2')
 f = Figlet(font='big')
 
 def getbuckets():
@@ -46,6 +47,21 @@ def getgroups():
 
     return grouplist
 
+def getinstances():
+    serverlist=[]
+    count=0
+    servers=ec2.describe_instances()
+    for reservation in servers['Reservations']:
+        for inst in reservation['Instances']:
+            count+=1
+            name=inst['InstanceId']
+            state=inst['State']['Name']
+            serverid="server"+str(count)
+            print("Id: "+name+"      State: "+ state)
+            serverlist.append({ "name":name})
+    return serverlist
+
+
 def bucket_list(bucket_choices):
     bucketlist=getbuckets()
     return bucketlist
@@ -57,6 +73,10 @@ def user_list(bucket_choices):
 def group_list(bucket_choices):
     grouplist=getgroups()
     return grouplist
+
+def instance_list(instance_choices):
+    instancelist=getinstances()
+    return instancelist
 
 def take_action(mainanswers):
     options=[]
@@ -99,6 +119,12 @@ def take_action(mainanswers):
             pprint(group_choices) 
             deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
+    if mainanswers['service'] == 'EC2':
+        if mainanswers['action'] == 'Stop Instances':
+            instance_choices = prompt(instance_choice, style=custom_style_2)
+            pprint(instance_choices) 
+            stopinstance(instance_choices)
+            options.extend(['Stop more servers','Exit'])
     return options
 
 
@@ -117,6 +143,14 @@ def deletegroup(group_choices):
     groupname=group_choices['group'][0]
     iam.delete_group( GroupName=str(groupname))
 
+def stopinstance(instance_choices):
+    print("Stopping Instance")
+    instancename=instance_choices['instance'][0]
+    ec2.stop_instances( InstanceIds=[
+        str(instancename),
+    ])
+    
+    
 def get_service_data(mainanswers):
     options = []
     if mainanswers['service'] == 'S3':
@@ -128,7 +162,8 @@ def get_service_data(mainanswers):
     
     elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
-        options.extend(['Start Instance','Stop Instance','Go Back'])
+        getinstances()
+        options.extend(['Start Instances','Stop Instances','Terminate Instances','Show Keypairs','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
         print("\n #############Users############ \n ")
@@ -207,6 +242,15 @@ group_choice=[{
 }
         ]
 
+instance_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select instances',
+        'name': 'instance',
+        #'choices': ['test1','test2'],
+        'choices': instance_list
+}
+        ]
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
