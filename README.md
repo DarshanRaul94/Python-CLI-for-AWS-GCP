@@ -1,5 +1,6 @@
 # Python-CLI-for-AWS
-
+![Main terminal](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/cli%20main.png)
+![s3 terminal](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/cli%20s3.png)
 CLI Program TODO:
 - [ ] Have a look at other CLI offerings and look how you can do something different
 - [ ] Replace the if statements with switch ## using dictionary or lambda
