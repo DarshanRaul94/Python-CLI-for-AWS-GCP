@@ -8,13 +8,16 @@ CLI Program TODO:
 - [x] Delete Group function
 - [ ] Try to package the choice arrays and then import in main file [Can skip if not feasible today]
 - [ ] Comment the code till now (After making packages so u can comment import statements)
-- [ ] Start instance
+- [x] Start instance
 - [x] Stop instance 
 - [x] Terminate instance 
+- [ ] Run instances
+- [ ] Create keypairs
+- [ ] Delete Keypairs
 - [ ] Add loop to go back to main menu if back is pressed
 - [ ] Add test's using pytest by creating small scenarios 
+- [ ] FINAL : Package the whole thing and post on pypi
 
-
-# Refereneces/Inspiration:
+# References/Inspiration:
 
 https://github.com/donnemartin/awesome-aws#cli

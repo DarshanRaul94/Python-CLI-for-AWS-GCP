@@ -121,6 +121,11 @@ def take_action(mainanswers):
             deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
     if mainanswers['service'] == 'EC2':
+        if mainanswers['action'] == 'Start Instances':
+            instance_choices = prompt(instance_choice, style=custom_style_2)
+            pprint(instance_choices) 
+            startinstance(instance_choices)
+            options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'Stop Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices) 
@@ -148,6 +153,13 @@ def deletegroup(group_choices):
     print("deleting group")
     groupname=group_choices['group'][0]
     iam.delete_group( GroupName=str(groupname))
+
+def startinstance(instance_choices):
+    print("Starting Instance")
+    instancename=instance_choices['instance'][0]
+    ec2.start_instances( InstanceIds=[
+        str(instancename),
+    ])    
 
 def stopinstance(instance_choices):
     print("Stopping Instance")
