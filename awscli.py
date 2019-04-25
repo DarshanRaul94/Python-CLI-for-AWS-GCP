@@ -50,6 +50,14 @@ def bucket_list(bucket_choices):
     bucketlist=getbuckets()
     return bucketlist
 
+def user_list(bucket_choices):
+    userlist=getusers()
+    return userlist
+
+def group_list(bucket_choices):
+    grouplist=getgroups()
+    return grouplist
+
 def take_action(mainanswers):
     options=[]
     
@@ -75,7 +83,20 @@ def take_action(mainanswers):
             groupname=input("What is the name of the group you want to create: ")
             print("Creating group")
             iam.create_group(GroupName=str(groupname))
-            options.extend(['Create More Groups','Exit'])    
+            options.extend(['Create More Groups','Exit']) 
+        if mainanswers['action'] == 'Delete User':
+            print("delete user me aa")
+            user_choices = prompt(user_choice, style=custom_style_2)
+            pprint(user_choices) 
+            deleteuser(user_choices)
+            
+            #pprint(bucket_choices) 
+            #deletebucket(bucket_choices)
+            options.extend(['Delete more users','Exit'])
+        if mainanswers['action'] == 'Delete Group':
+            print("delete group me aa")
+            
+            options.extend(['Delete more groups','Exit'])   
     return options
 
 
@@ -84,7 +105,10 @@ def deletebucket(bucket_choices):
     bucketname=bucket_choices['bucket'][0]
     s3.delete_bucket(  Bucket=str(bucketname))
 
-
+def deleteuser(user_choices):
+    print("deleting user")
+    username=user_choices['user'][0]
+    iam.delete_user( UserName=str(username))
 
 
 def get_service_data(mainanswers):
@@ -92,20 +116,20 @@ def get_service_data(mainanswers):
     if mainanswers['service'] == 'S3':
         print("\n #############Buckets############ \n ")
         getbuckets()
-        options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket'])
+        options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'])
         
 
     
     elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
-        options.extend(['Start Instance','Stop Instance'])
+        options.extend(['Start Instance','Stop Instance','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
         print("\n #############Users############ \n ")
         getusers()
         print("\n #############Groups############ \n ")
         getgroups()
-        options.extend(['Create User','Create Group','Go Back'])
+        options.extend(['Create User','Create Group','Delete User','Delete Group','Go Back'])
              
         
     return options
@@ -157,6 +181,15 @@ bucket_choice=[{
 }
         ]
 
+user_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select Users',
+        'name': 'user',
+        #'choices': ['test1','test2'],
+        'choices': user_list
+}
+        ]
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
