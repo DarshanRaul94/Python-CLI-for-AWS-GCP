@@ -94,8 +94,10 @@ def take_action(mainanswers):
             #deletebucket(bucket_choices)
             options.extend(['Delete more users','Exit'])
         if mainanswers['action'] == 'Delete Group':
-            print("delete group me aa")
-            
+            print("Make sure that the Group is empty before you delete it")
+            group_choices = prompt(group_choice, style=custom_style_2)
+            pprint(group_choices) 
+            deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
     return options
 
@@ -110,6 +112,10 @@ def deleteuser(user_choices):
     username=user_choices['user'][0]
     iam.delete_user( UserName=str(username))
 
+def deletegroup(group_choices):
+    print("deleting group")
+    groupname=group_choices['group'][0]
+    iam.delete_group( GroupName=str(groupname))
 
 def get_service_data(mainanswers):
     options = []
@@ -190,6 +196,17 @@ user_choice=[{
         'choices': user_list
 }
         ]
+
+group_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select Groups',
+        'name': 'group',
+        #'choices': ['test1','test2'],
+        'choices': group_list
+}
+        ]
+
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
