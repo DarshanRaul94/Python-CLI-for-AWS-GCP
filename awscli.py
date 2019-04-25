@@ -71,6 +71,11 @@ def take_action(mainanswers):
             print("Creating user")
             iam.create_user( UserName=str(username))
             options.extend(['Create More users','Exit'])
+        if mainanswers['action'] == 'Create Group':
+            groupname=input("What is the name of the group you want to create: ")
+            print("Creating group")
+            iam.create_group(GroupName=str(groupname))
+            options.extend(['Create More Groups','Exit'])    
     return options
 
 

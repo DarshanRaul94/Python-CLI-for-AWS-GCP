@@ -8,3 +8,4 @@ CLI Program TODO:
 - [ ] Try to package the choice arrays and then import in main file [Can skip if not feasible today]
 - [ ] Start instance
 - [ ] Stop instance 
+- [ ] Add loop to go back to main menu if back is pressed
