@@ -11,7 +11,9 @@ CLI Program TODO:
 - [x] Start instance
 - [x] Stop instance 
 - [x] Terminate instance 
-- [ ] Run instances
+- [x] Run instances # Lot more scope here
+- [ ] Run instances by chosing options
+- [ ] Dont print values when doing operations
 - [ ] Create keypairs
 - [ ] Delete Keypairs
 - [ ] Add loop to go back to main menu if back is pressed

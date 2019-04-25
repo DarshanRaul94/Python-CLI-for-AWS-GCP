@@ -121,6 +121,16 @@ def take_action(mainanswers):
             deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
     if mainanswers['service'] == 'EC2':
+        if mainanswers['action'] == 'Run Instances': ######### Will need to add more features here like ami id according to region
+            os=input("What is the OS? ")
+            count=input("How many servers you want to run? ")
+            instance_type=input("Which Instance type you want to run")
+            keyname=input("Which key pair you want to use")
+            ec2.run_instances( ImageId=str(os),
+            InstanceType=str(instance_type),MaxCount=int(count),
+            MinCount=int(count),KeyName=str(keyname))
+            print("Running instances now")
+            options.extend(['Run more servers','Exit'])
         if mainanswers['action'] == 'Start Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices) 
@@ -186,7 +196,7 @@ def get_service_data(mainanswers):
     elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
         getinstances()
-        options.extend(['Start Instances','Stop Instances','Terminate Instances','Show Keypairs','Go Back'])
+        options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances','Show Keypairs','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
         print("\n #############Users############ \n ")
