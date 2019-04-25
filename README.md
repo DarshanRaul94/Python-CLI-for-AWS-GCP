@@ -15,6 +15,6 @@ CLI Program TODO:
 - [ ] Add test's using pytest by creating small scenarios 
 
 
-#Refereneces/Inspiration:
+# Refereneces/Inspiration:
 
 https://github.com/donnemartin/awesome-aws#cli

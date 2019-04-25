@@ -183,7 +183,7 @@ def get_service_data(mainanswers):
         getgroups()
         options.extend(['Create User','Create Group','Delete User','Delete Group','Go Back'])
              
-        
+    
     return options
 
 mainquestions = [
@@ -216,8 +216,8 @@ mainquestions = [
     },
     {
         'type': 'list',
-        'name': 'delivery',
-        'message': 'Which vehicle you want to use for delivery?',
+        'name': 'next',
+        'message': '>',
         'choices': take_action
     },
 ]
