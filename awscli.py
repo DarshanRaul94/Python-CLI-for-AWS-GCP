@@ -11,6 +11,7 @@ from examples import custom_style_2
 from pyfiglet import Figlet
 import boto3
 
+
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
 ec2 = boto3.client('ec2')
@@ -125,6 +126,11 @@ def take_action(mainanswers):
             pprint(instance_choices) 
             stopinstance(instance_choices)
             options.extend(['Stop more servers','Exit'])
+        if mainanswers['action'] == 'Terminate Instances':
+            instance_choices = prompt(instance_choice, style=custom_style_2)
+            pprint(instance_choices) 
+            terminateinstance(instance_choices)
+            options.extend(['Terminate more servers','Exit'])
     return options
 
 
@@ -149,7 +155,12 @@ def stopinstance(instance_choices):
     ec2.stop_instances( InstanceIds=[
         str(instancename),
     ])
-    
+def terminateinstance(instance_choices):
+    print("Terminating Instance")
+    instancename=instance_choices['instance'][0]
+    ec2.terminate_instances( InstanceIds=[
+        str(instancename),
+    ]) 
     
 def get_service_data(mainanswers):
     options = []

@@ -10,6 +10,7 @@ CLI Program TODO:
 - [ ] Comment the code till now (After making packages so u can comment import statements)
 - [ ] Start instance
 - [x] Stop instance 
+- [x] Terminate instance 
 - [ ] Add loop to go back to main menu if back is pressed
 - [ ] Add test's using pytest by creating small scenarios 
 
