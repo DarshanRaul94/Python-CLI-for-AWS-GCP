@@ -1,5 +1,5 @@
 
-
+################ PYenquirer ##################
 from __future__ import print_function, unicode_literals
 
 from pprint import pprint
@@ -8,15 +8,25 @@ from PyInquirer import style_from_dict, Token, prompt, Separator
 
 from examples import custom_style_2
 
+
+################ Logo #####################
 from pyfiglet import Figlet
+
+########### AWS #####################
 import boto3
+############ progress bar ##########################
 from time import sleep
 import sys
 
+### initialize service clients #############
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
 ec2 = boto3.client('ec2')
+
 f = Figlet(font='big')
+
+
+################### progress bar function #########
 def progressbar():
     for i in range(21):
         sys.stdout.write('\r')
@@ -119,6 +129,7 @@ def getvpcs(show):
 
 
 ##########################option loaders###########################
+
 def bucket_list(bucket_choices):
     bucketlist=getbuckets(False)
     return bucketlist
@@ -149,11 +160,13 @@ def vpc_list(vpc_choices):
 
 
 
-########   MAIN QUESTIONS ###############################
+########  SUB QUESTIONS ###############################
+
 def take_action(mainanswers):
     options=[]
     
     if mainanswers['service'] == 'S3':
+        ######################## S3 #########################
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             location=input("In which region do you want to create the bucket")
@@ -167,7 +180,10 @@ def take_action(mainanswers):
             pprint(bucket_choices) 
             deletebucket(bucket_choices)
             options.extend(['Delete more buckets','Exit'])
+
+
     if mainanswers['service'] == 'IAM':
+        ######################## IAM #######################
         if mainanswers['action'] == 'Create User':
             username=input("What is the name of the user you want to create: ")
             print("Creating user")
@@ -193,6 +209,8 @@ def take_action(mainanswers):
             pprint(group_choices) 
             deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
+
+
     if mainanswers['service'] == 'EC2':
 
         ############################INSTANCE ########################
@@ -250,7 +268,7 @@ def take_action(mainanswers):
             deletesecuritygroup(securitygroup_choices)
             options.extend(['Delete more securitygroups','Exit'])
 
-   #########################KEYPAIRS ################################
+        #########################KEYPAIRS ################################
         if mainanswers['action'] == 'Create Keypairs':
             keyname=input("What is the name of the keypair you want to create? ")
             #path=input("Whre do you want to save the keypair? ")
@@ -272,6 +290,7 @@ def take_action(mainanswers):
 
 
     ###########################VPCS################################
+
     if mainanswers['service'] == 'VPC':
         if mainanswers['action'] == 'Create VPC':
             cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
@@ -289,7 +308,8 @@ def take_action(mainanswers):
 
     return options
 
-################################DELETE FUNCTIONS##############################
+
+################################DELETE FUNCTIONS   ##############################
 
 def deletebucket(bucket_choices):
     print("deleting bucket")
@@ -399,6 +419,9 @@ def get_service_data(mainanswers):
 
     return options
 
+
+
+######################## STATIC MAIN OPTIONS #################
 mainquestions = [
     {
         'type': 'list',
@@ -437,7 +460,8 @@ mainquestions = [
 
 
 
-###########################CHOICES############################
+###########################CHECKBOXES############################
+
 bucket_choice=[{
         'type': 'checkbox',
         'qmark': '😃',
@@ -509,12 +533,20 @@ securitygroup_choice=[{
         'choices': securitygroup_list
 }
         ]
+
+
+
+########################## START HERE###################
+
+
+
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
-mainanswers = prompt(mainquestions, style=custom_style_2)
 
-pprint(mainanswers)
+mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
+
+pprint(mainanswers) # print questions
 
 
 
