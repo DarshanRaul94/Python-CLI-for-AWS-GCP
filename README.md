@@ -6,6 +6,8 @@
 # TODO:
 - [x] Have a look at other CLI offerings and look how you can do something different
 - [ ] Replace the if statements with switch ## using dictionary or lambda
+- [ ] Add loop to go back to main menu if back is pressed
+        - [ ] Create fucntion which creates options maybe and then loop around
 - [x] Create Group function 
 - [x] Delete User function
 - [x] Delete Group function
@@ -26,7 +28,7 @@
 - [x] Add progress bar when creating/deleting things
 - [ ] RDS create
 - [ ] RDS delete
-- [ ] Add loop to go back to main menu if back is pressed
+
 - [ ] Add test's using pytest by creating small scenarios 
 - [ ] FINAL : Package the whole thing and post on pypi
 

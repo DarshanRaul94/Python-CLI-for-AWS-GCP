@@ -86,6 +86,16 @@ def getsecuritygroups():
         securitygrouplist.append({ "name":name})
     return securitygrouplist
 
+def getkeypairs():
+    keypairlist=[]
+    count=0
+    keypairs=ec2.describe_key_pairs()
+    for keypair in keypairs['KeyPairs']:
+        name=keypair['KeyName']
+        
+        print("name: "+name)
+        keypairlist.append({ "name":name})
+    return keypairlist
 
 ##########################option loaders###########################
 def bucket_list(bucket_choices):
@@ -104,6 +114,18 @@ def instance_list(instance_choices):
     instancelist=getinstances()
     return instancelist
 
+def securitygroup_list(securitygroup_choices):
+    securitygrouplist=getsecuritygroups()
+    return securitygrouplist
+
+def keypair_list(keypair_choices):
+    keypairlist=getkeypairs()
+    return keypairlist
+
+
+
+
+########   MAIN QUESTIONS ###############################
 def take_action(mainanswers):
     options=[]
     
@@ -179,10 +201,16 @@ def take_action(mainanswers):
 
         #########################SECURITY GROUP ################################
         if mainanswers['action'] == 'Create Security Groups':
-            getsecuritygroups()
-            instance_choices = prompt(instance_choice, style=custom_style_2)
-            pprint(instance_choices) 
-            startinstance(instance_choices)
+            
+            groupname=input("What is the name you want to give to the group? ")
+            vpcid=input("Select the vpc for the Security group") ##currenty manually entering will add vpc selection later
+            description=input("Give a short description for the group: ")
+            ec2.create_security_group(
+            Description=str(description),
+            GroupName=str(groupname),
+            VpcId=str(vpcid)
+            
+            )
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'List Security Groups':
             getsecuritygroups()
@@ -194,6 +222,18 @@ def take_action(mainanswers):
             stopinstance(instance_choices)
             options.extend(['Stop more servers','Exit'])
 
+   #########################KEYPAIRS ################################
+        if mainanswers['action'] == 'Create Keypairs':
+            
+            
+            options.extend(['Start more servers','Exit'])
+        if mainanswers['action'] == 'List Keypairs':
+            getkeypairs()
+            
+            options.extend(['Create Keypairs','Delete Keypairs','Exit'])
+        if mainanswers['action'] == 'Delete Keypairs':
+            
+            options.extend(['Stop more servers','Exit'])
     return options
 
 
@@ -258,7 +298,7 @@ def get_service_data(mainanswers):
         print("\n #############Instances############ \n ")
         getinstances()
         options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
-        Separator('---------Keypairs---------'),'Show Keypairs','Create Keypairs','Delete Keypairs',
+        Separator('---------Keypairs---------'),'List Keypairs','Create Keypairs','Delete Keypairs',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
@@ -347,6 +387,8 @@ instance_choice=[{
         'choices': instance_list
 }
         ]
+
+
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
