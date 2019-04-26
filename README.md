@@ -8,9 +8,10 @@
 
 # TODO:
 - [x] Have a look at other CLI offerings and look how you can do something different
+- [ ] Add regions choices 
 - [ ] Replace the if statements with switch ## using dictionary or lambda
 - [ ] Add loop to go back to main menu if back is pressed
-        - [ ] Create fucntion which creates options maybe and then loop around
+        * [ ] Create fucntion which creates options maybe and then loop around
 - [x] Create Group function 
 - [x] Delete User function
 - [x] Delete Group function
