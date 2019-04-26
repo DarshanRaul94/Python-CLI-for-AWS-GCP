@@ -19,10 +19,10 @@
 - [x] Run instances # Lot more scope here
 - [ ] Create security groups
 - [ ] Delete security groups
-- [ ] Create VPC with CIDR
+- [x] Create VPC with CIDR
 - [x] View the VPC networks
 - [ ] Run instances by chosing options
-- [ ] Dont print values when doing operations
+- [x] Dont print values when doing operations
 - [x] Create keypairs
 - [X] Delete Keypairs
 - [x] Add progress bar when creating/deleting things

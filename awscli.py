@@ -27,41 +27,44 @@ def progressbar():
 
  ##########################getters#########################   
  # s3    
-def getbuckets():
+def getbuckets(show):
     bucketlist=[]
     buckets=s3.list_buckets()
     for i in buckets['Buckets']:
         bucket= i['Name']
-        print("> " +bucket)
+        if show:
+            print("> " +bucket)
         bucketlist.append({'name':bucket})
     #print(bucketlist)
     return bucketlist
 
 
 # iam
-def getusers():
+def getusers(show):
     users=iam.list_users()
     userlist=[]
     
     for user in users['Users']:
         name=user['UserName']
-        print("> "+name)
+        if show:
+            print("> "+name)
         userlist.append({"name":name})
     return userlist
 
-def getgroups():
+def getgroups(show):
     groups=iam.list_groups()
     grouplist=[]
         
     for group in groups['Groups']:
         name=group['GroupName']
-        print("> "+name)
+        if show:
+            print("> "+name)
         grouplist.append({"name":name})
 
     return grouplist
 
 # ec2
-def getinstances():
+def getinstances(show):
     serverlist=[]
     count=0
     servers=ec2.describe_instances()
@@ -71,71 +74,75 @@ def getinstances():
             name=inst['InstanceId']
             state=inst['State']['Name']
             serverid="server"+str(count)
-            print("Id: "+name+"      State: "+ state)
+            if show:
+                print("Id: "+name+"      State: "+ state)
             serverlist.append({ "name":name})
     return serverlist
 
-def getsecuritygroups():
+def getsecuritygroups(show):
     securitygrouplist=[]
     count=0
     securitygroups=ec2.describe_security_groups()
     for securitygroup in securitygroups['SecurityGroups']:
         name=securitygroup['GroupName']
         description=securitygroup['Description']
-        print("name: "+name+"      Descripton: "+ description)
+        if show:
+            print("name: "+name+"      Descripton: "+ description)
         securitygrouplist.append({ "name":name})
     return securitygrouplist
 
-def getkeypairs():
+def getkeypairs(show):
     keypairlist=[]
     count=0
     keypairs=ec2.describe_key_pairs()
     for keypair in keypairs['KeyPairs']:
         name=keypair['KeyName']
         
-        print("name: "+name)
+        if show:
+            print("name: "+name)
         keypairlist.append({ "name":name})
     return keypairlist
 
-def getvpcs():
+def getvpcs(show):
     vpclist=[]
     count=0
     vpcs=ec2.describe_vpcs()
     for vpc in vpcs['Vpcs']:
         name=vpc['VpcId']
         cidr=vpc['CidrBlock']
-        print("VPC Id:  "+name+"           CIDR: "+cidr)
+        if show:
+            print("VPC Id:  "+name+"           CIDR: "+cidr)
         vpclist.append({ "name":name})
     return vpclist
 
 
 ##########################option loaders###########################
 def bucket_list(bucket_choices):
-    bucketlist=getbuckets()
+    bucketlist=getbuckets(False)
     return bucketlist
 
 def user_list(bucket_choices):
-    userlist=getusers()
+    userlist=getusers(False)
     return userlist
 
 def group_list(bucket_choices):
-    grouplist=getgroups()
+    grouplist=getgroups(False)
     return grouplist
 
 def instance_list(instance_choices):
-    instancelist=getinstances()
+    instancelist=getinstances(False)
     return instancelist
 
 def securitygroup_list(securitygroup_choices):
-    securitygrouplist=getsecuritygroups()
+    securitygrouplist=getsecuritygroups(False)
     return securitygrouplist
 
 def keypair_list(keypair_choices):
-    keypairlist=getkeypairs()
+    keypairlist=getkeypairs(False)
     return keypairlist
 
 def vpc_list(vpc_choices):
-    vpclist=getvpcs()
+    vpclist=getvpcs(False)
     return vpclist
 
 
@@ -153,7 +160,7 @@ def take_action(mainanswers):
             print("\n \n Bucket " +bucket_name +" has been created \n \n")
             options.extend(['Create more buckets','Exit'])
         if mainanswers['action'] == 'Delete Bucket':
-            print("delete me aa")
+            
             bucket_choices = prompt(bucket_choice, style=custom_style_2)
             pprint(bucket_choices) 
             deletebucket(bucket_choices)
@@ -170,7 +177,7 @@ def take_action(mainanswers):
             iam.create_group(GroupName=str(groupname))
             options.extend(['Create More Groups','Exit']) 
         if mainanswers['action'] == 'Delete User':
-            print("delete user me aa")
+            
             user_choices = prompt(user_choice, style=custom_style_2)
             pprint(user_choices) 
             deleteuser(user_choices)
@@ -228,7 +235,7 @@ def take_action(mainanswers):
             )
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'List Security Groups':
-            getsecuritygroups()
+            getsecuritygroups(True)
             
             options.extend(['Create Security Groups','Delete Security Groups','Exit'])
         if mainanswers['action'] == 'Delete Security Groups':
@@ -247,7 +254,7 @@ def take_action(mainanswers):
             #key.save(str(path))
             options.extend(['Create more keypairs','Exit'])
         if mainanswers['action'] == 'List Keypairs':
-            getkeypairs()
+            getkeypairs(True)
             
             options.extend(['Create Keypairs','Delete Keypairs','Exit'])
         if mainanswers['action'] == 'Delete Keypairs':
@@ -353,28 +360,28 @@ def get_service_data(mainanswers):
     options = []
     if mainanswers['service'] == 'S3':
         print("\n #############Buckets############ \n ")
-        getbuckets()
+        getbuckets(True)
         options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'])
         
 
     
     elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
-        getinstances()
+        getinstances(True)
         options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
         Separator('---------Keypairs---------'),'List Keypairs','Create Keypairs','Delete Keypairs',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
         print("\n #############Users############ \n ")
-        getusers()
+        getusers(True)
         print("\n #############Groups############ \n ")
-        getgroups()
+        getgroups(True)
         options.extend(['Create User','Create Group','Delete User','Delete Group','Go Back'])
              
     elif mainanswers['service'] == 'VPC':
         print("\n #############VPC's############ \n ")
-        getvpcs()
+        getvpcs(True)
         
         options.extend(['Create VPC','Delete VPC','Go Back'])
 
