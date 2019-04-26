@@ -15,10 +15,17 @@
 - [x] Stop instance 
 - [x] Terminate instance 
 - [x] Run instances # Lot more scope here
+- [ ] Create security groups
+- [ ] Delete security groups
+- [ ] Create VPC with CIDR
+- [ ] View the VPC networks
 - [ ] Run instances by chosing options
 - [ ] Dont print values when doing operations
 - [ ] Create keypairs
 - [ ] Delete Keypairs
+- [x] Add progress bar when creating/deleting things
+- [ ] RDS create
+- [ ] RDS delete
 - [ ] Add loop to go back to main menu if back is pressed
 - [ ] Add test's using pytest by creating small scenarios 
 - [ ] FINAL : Package the whole thing and post on pypi

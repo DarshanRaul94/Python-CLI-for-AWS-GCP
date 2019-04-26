@@ -10,7 +10,8 @@ from examples import custom_style_2
 
 from pyfiglet import Figlet
 import boto3
-
+from time import sleep
+import sys
 
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
@@ -26,6 +27,14 @@ def getbuckets():
         bucketlist.append({'name':bucket})
     #print(bucketlist)
     return bucketlist
+def progressbar():
+    for i in range(21):
+        sys.stdout.write('\r')
+        # the exact output you're looking for:
+        sys.stdout.write("[%-20s] %d%%" % ('='*i, 5*i))
+        sys.stdout.flush()
+        sleep(0.05)
+
 
 def getusers():
     users=iam.list_users()
@@ -151,7 +160,10 @@ def take_action(mainanswers):
 
 def deletebucket(bucket_choices):
     print("deleting bucket")
+    progressbar()
+    
     bucketname=bucket_choices['bucket'][0]
+    print("\n \n Bucket " +bucketname +" has been deleted \n \n")
     s3.delete_bucket(  Bucket=str(bucketname))
 
 def deleteuser(user_choices):
