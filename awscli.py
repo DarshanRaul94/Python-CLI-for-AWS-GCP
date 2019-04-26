@@ -97,6 +97,18 @@ def getkeypairs():
         keypairlist.append({ "name":name})
     return keypairlist
 
+def getvpcs():
+    vpclist=[]
+    count=0
+    vpcs=ec2.describe_vpcs()
+    for vpc in vpcs['Vpcs']:
+        name=vpc['VpcId']
+        cidr=vpc['CidrBlock']
+        print("VPC Id:  "+name+"           CIDR: "+cidr)
+        vpclist.append({ "name":name})
+    return vpclist
+
+
 ##########################option loaders###########################
 def bucket_list(bucket_choices):
     bucketlist=getbuckets()
@@ -332,7 +344,12 @@ def get_service_data(mainanswers):
         getgroups()
         options.extend(['Create User','Create Group','Delete User','Delete Group','Go Back'])
              
-    
+    elif mainanswers['service'] == 'VPC':
+        print("\n #############VPC's############ \n ")
+        getvpcs()
+        
+        options.extend(['Create VPC','Delete VPC','Go Back'])
+
     return options
 
 mainquestions = [
