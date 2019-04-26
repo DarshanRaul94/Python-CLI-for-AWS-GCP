@@ -269,9 +269,9 @@ def take_action(mainanswers):
             options.extend(['Create more VPC\'s','Exit'])
        
         if mainanswers['action'] == 'Delete VPC':
-            keypair_choices = prompt(keypair_choice, style=custom_style_2)
-            pprint(keypair_choices) 
-            deletekeypair(keypair_choices)
+            vpc_choices = prompt(vpc_choice, style=custom_style_2)
+            pprint(vpc_choices) 
+            deletevpc(vpc_choices)
             options.extend(['Delete more VPC\'s','Exit'])
 
     return options
@@ -334,6 +334,12 @@ def deletekeypair(keypair_choices):
     ec2.delete_key_pair(KeyName=str(keypairname))    
 
 
+def deletevpc(vpc_choices):
+    print("deleting vpc")
+    progressbar()
+    vpcname=vpc_choices['vpc'][0]
+    print("\n \n vpc " +vpcname +" has been deleted \n \n")
+    ec2.delete_vpc(VpcId=str(vpcname))    
 
 
 
