@@ -224,9 +224,13 @@ def take_action(mainanswers):
 
    #########################KEYPAIRS ################################
         if mainanswers['action'] == 'Create Keypairs':
-            
-            
-            options.extend(['Start more servers','Exit'])
+            keyname=input("What is the name of the keypair you want to create? ")
+            #path=input("Whre do you want to save the keypair? ")
+            key=ec2.create_key_pair(
+            KeyName=str(keyname)
+            )
+            #key.save(str(path))
+            options.extend(['Create more keypairs','Exit'])
         if mainanswers['action'] == 'List Keypairs':
             getkeypairs()
             

@@ -23,7 +23,7 @@
 - [ ] View the VPC networks
 - [ ] Run instances by chosing options
 - [ ] Dont print values when doing operations
-- [ ] Create keypairs
+- [x] Create keypairs
 - [ ] Delete Keypairs
 - [x] Add progress bar when creating/deleting things
 - [ ] RDS create
