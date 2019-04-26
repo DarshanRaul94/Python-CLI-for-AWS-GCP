@@ -1,4 +1,7 @@
 # Python-CLI-for-AWS
+
+
+![demo](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/demo.gif)
 ![Main terminal](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/cli%20main.png)
 ![s3 terminal](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/cli%20s3.png)
 
