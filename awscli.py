@@ -236,7 +236,9 @@ def take_action(mainanswers):
             
             options.extend(['Create Keypairs','Delete Keypairs','Exit'])
         if mainanswers['action'] == 'Delete Keypairs':
-            
+            keypair_choices = prompt(keypair_choice, style=custom_style_2)
+            pprint(keypair_choices) 
+            deletekeypair(keypair_choices)
             options.extend(['Stop more servers','Exit'])
     return options
 
@@ -288,7 +290,25 @@ def terminateinstance(instance_choices):
     ec2.terminate_instances( InstanceIds=[
         str(instancename),
     ]) 
-    
+
+
+def deletekeypair(keypair_choices):
+    print("deleting keypair")
+    progressbar()
+    keypairname=keypair_choices['keypair'][0]
+    print("\n \n Keypair " +keypairname +" has been deleted \n \n")
+    ec2.delete_key_pair(KeyName=str(keypairname))    
+
+
+
+
+
+
+
+################# MAIN QUESTIONS ###############################
+
+
+
 def get_service_data(mainanswers):
     options = []
     if mainanswers['service'] == 'S3':
@@ -352,6 +372,8 @@ mainquestions = [
 ]
 
 
+
+###########################CHOICES############################
 bucket_choice=[{
         'type': 'checkbox',
         'qmark': '😃',
@@ -389,6 +411,17 @@ instance_choice=[{
         'name': 'instance',
         #'choices': ['test1','test2'],
         'choices': instance_list
+}
+        ]
+
+
+keypair_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select keypairs',
+        'name': 'keypair',
+        #'choices': ['test1','test2'],
+        'choices': keypair_list
 }
         ]
 

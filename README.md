@@ -24,7 +24,7 @@
 - [ ] Run instances by chosing options
 - [ ] Dont print values when doing operations
 - [x] Create keypairs
-- [ ] Delete Keypairs
+- [X] Delete Keypairs
 - [x] Add progress bar when creating/deleting things
 - [ ] RDS create
 - [ ] RDS delete
