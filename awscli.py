@@ -85,10 +85,12 @@ def getsecuritygroups(show):
     securitygroups=ec2.describe_security_groups()
     for securitygroup in securitygroups['SecurityGroups']:
         name=securitygroup['GroupName']
+        
+        gid=securitygroup['GroupId']
         description=securitygroup['Description']
         if show:
             print("name: "+name+"      Descripton: "+ description)
-        securitygrouplist.append({ "name":name})
+        securitygrouplist.append({ "name":gid})
     return securitygrouplist
 
 def getkeypairs(show):
@@ -242,10 +244,11 @@ def take_action(mainanswers):
             
             options.extend(['Create Security Groups','Delete Security Groups','Exit'])
         if mainanswers['action'] == 'Delete Security Groups':
-            instance_choices = prompt(instance_choice, style=custom_style_2)
-            pprint(instance_choices) 
-            stopinstance(instance_choices)
-            options.extend(['Stop more servers','Exit'])
+            securitygroup_choices = prompt(securitygroup_choice, style=custom_style_2)
+            pprint(securitygroup_choices) 
+            
+            deletesecuritygroup(securitygroup_choices)
+            options.extend(['Delete more securitygroups','Exit'])
 
    #########################KEYPAIRS ################################
         if mainanswers['action'] == 'Create Keypairs':
@@ -264,7 +267,7 @@ def take_action(mainanswers):
             keypair_choices = prompt(keypair_choice, style=custom_style_2)
             pprint(keypair_choices) 
             deletekeypair(keypair_choices)
-            options.extend(['Stop more servers','Exit'])
+            options.extend(['Delete more Keypairs','Exit'])
 
 
 
@@ -352,7 +355,12 @@ def deletevpc(vpc_choices):
     print("\n \n vpc " +vpcname +" has been deleted \n \n")
     ec2.delete_vpc(VpcId=str(vpcname))    
 
-
+def deletesecuritygroup(securitygroup_choices):
+    print("deleting securitygroup")
+    progressbar()
+    securitygroupname=securitygroup_choices['securitygroup'][0]
+    print("\n \n securitygroup " +securitygroupname +" has been deleted \n \n")
+    ec2.delete_security_group(GroupId=str(securitygroupname))    
 
 
 
@@ -491,6 +499,16 @@ vpc_choice=[{
 }
         ]
 
+
+securitygroup_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select securitygroups',
+        'name': 'securitygroup',
+        #'choices': ['test1','test2'],
+        'choices': securitygroup_list
+}
+        ]
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
 print('Made with <3 by Darshan Raul \n')
