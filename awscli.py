@@ -225,8 +225,11 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create Security Groups':
             
             groupname=input("What is the name you want to give to the group? ")
-            vpcid=input("Select the vpc for the Security group") ##currenty manually entering will add vpc selection later
+            #vpcid=input("Select the vpc for the Security group") ##currenty manually entering will add vpc selection later
             description=input("Give a short description for the group: ")
+            vpc_choices = prompt(vpc_choice, style=custom_style_2)
+            pprint(vpc_choices)
+            vpcid=vpc_choices['vpc'][0]
             ec2.create_security_group(
             Description=str(description),
             GroupName=str(groupname),
@@ -283,6 +286,7 @@ def take_action(mainanswers):
 
     return options
 
+################################DELETE FUNCTIONS##############################
 
 def deletebucket(bucket_choices):
     print("deleting bucket")

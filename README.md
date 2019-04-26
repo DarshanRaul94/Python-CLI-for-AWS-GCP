@@ -17,7 +17,7 @@
 - [x] Stop instance 
 - [x] Terminate instance 
 - [x] Run instances # Lot more scope here
-- [ ] Create security groups
+- [x] Create security groups
 - [ ] Delete security groups
 - [x] Create VPC with CIDR
 - [x] View the VPC networks
