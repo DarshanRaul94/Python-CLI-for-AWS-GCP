@@ -95,7 +95,9 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             location=input("In which region do you want to create the bucket")
+            progressbar()
             s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
+            print("\n \n Bucket " +bucket_name +" has been created \n \n")
             options.extend(['Create more buckets','Exit'])
         if mainanswers['action'] == 'Delete Bucket':
             print("delete me aa")
@@ -168,30 +170,40 @@ def deletebucket(bucket_choices):
 
 def deleteuser(user_choices):
     print("deleting user")
+    progressbar()
     username=user_choices['user'][0]
+    print("\n \n User " +username +" has been deleted \n \n")
     iam.delete_user( UserName=str(username))
 
 def deletegroup(group_choices):
     print("deleting group")
+    progressbar()
     groupname=group_choices['group'][0]
+    print("\n \n Group " +groupname +" has been deleted \n \n")
     iam.delete_group( GroupName=str(groupname))
 
 def startinstance(instance_choices):
     print("Starting Instance")
+    progressbar()
     instancename=instance_choices['instance'][0]
+    print("\n \n Instance " +instancename +" has been started \n \n")
     ec2.start_instances( InstanceIds=[
         str(instancename),
     ])    
 
 def stopinstance(instance_choices):
     print("Stopping Instance")
+    progressbar()
     instancename=instance_choices['instance'][0]
+    print("\n \n Instance " +instancename +" has been stopped \n \n")
     ec2.stop_instances( InstanceIds=[
         str(instancename),
     ])
 def terminateinstance(instance_choices):
     print("Terminating Instance")
+    progressbar()
     instancename=instance_choices['instance'][0]
+    print("\n \n Instance " +instancename +" has been terminated \n \n")
     ec2.terminate_instances( InstanceIds=[
         str(instancename),
     ]) 
