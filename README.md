@@ -20,7 +20,7 @@
 - [ ] Create security groups
 - [ ] Delete security groups
 - [ ] Create VPC with CIDR
-- [ ] View the VPC networks
+- [x] View the VPC networks
 - [ ] Run instances by chosing options
 - [ ] Dont print values when doing operations
 - [x] Create keypairs

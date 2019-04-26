@@ -134,6 +134,9 @@ def keypair_list(keypair_choices):
     keypairlist=getkeypairs()
     return keypairlist
 
+def vpc_list(vpc_choices):
+    vpclist=getvpcs()
+    return vpclist
 
 
 
@@ -252,6 +255,25 @@ def take_action(mainanswers):
             pprint(keypair_choices) 
             deletekeypair(keypair_choices)
             options.extend(['Stop more servers','Exit'])
+
+
+
+    ###########################VPCS################################
+    if mainanswers['service'] == 'VPC':
+        if mainanswers['action'] == 'Create VPC':
+            cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
+            #path=input("Whre do you want to save the keypair? ")
+            ec2.create_vpc(
+            CidrBlock=str(cidrblock))
+            #key.save(str(path))
+            options.extend(['Create more VPC\'s','Exit'])
+       
+        if mainanswers['action'] == 'Delete VPC':
+            keypair_choices = prompt(keypair_choice, style=custom_style_2)
+            pprint(keypair_choices) 
+            deletekeypair(keypair_choices)
+            options.extend(['Delete more VPC\'s','Exit'])
+
     return options
 
 
@@ -442,6 +464,15 @@ keypair_choice=[{
 }
         ]
 
+vpc_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select vpcs',
+        'name': 'vpc',
+        #'choices': ['test1','test2'],
+        'choices': vpc_list
+}
+        ]
 
 print (f.renderText('AWS CLI'))
 print('A small little CLI to interact with AWS Services')
