@@ -4,7 +4,7 @@
 
 
 # TODO:
-- [ ] Have a look at other CLI offerings and look how you can do something different
+- [x] Have a look at other CLI offerings and look how you can do something different
 - [ ] Replace the if statements with switch ## using dictionary or lambda
 - [x] Create Group function 
 - [x] Delete User function

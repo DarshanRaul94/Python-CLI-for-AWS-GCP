@@ -17,7 +17,16 @@ s3 = boto3.client('s3')
 iam = boto3.client('iam')
 ec2 = boto3.client('ec2')
 f = Figlet(font='big')
+def progressbar():
+    for i in range(21):
+        sys.stdout.write('\r')
+        # the exact output you're looking for:
+        sys.stdout.write("[%-20s] %d%%" % ('='*i, 5*i))
+        sys.stdout.flush()
+        sleep(0.05)
 
+ ##########################getters#########################   
+ # s3    
 def getbuckets():
     bucketlist=[]
     buckets=s3.list_buckets()
@@ -27,15 +36,9 @@ def getbuckets():
         bucketlist.append({'name':bucket})
     #print(bucketlist)
     return bucketlist
-def progressbar():
-    for i in range(21):
-        sys.stdout.write('\r')
-        # the exact output you're looking for:
-        sys.stdout.write("[%-20s] %d%%" % ('='*i, 5*i))
-        sys.stdout.flush()
-        sleep(0.05)
 
 
+# iam
 def getusers():
     users=iam.list_users()
     userlist=[]
@@ -57,6 +60,7 @@ def getgroups():
 
     return grouplist
 
+# ec2
 def getinstances():
     serverlist=[]
     count=0
@@ -71,7 +75,19 @@ def getinstances():
             serverlist.append({ "name":name})
     return serverlist
 
+def getsecuritygroups():
+    securitygrouplist=[]
+    count=0
+    securitygroups=ec2.describe_security_groups()
+    for securitygroup in securitygroups['SecurityGroups']:
+        name=securitygroup['GroupName']
+        description=securitygroup['Description']
+        print("name: "+name+"      Descripton: "+ description)
+        securitygrouplist.append({ "name":name})
+    return securitygrouplist
 
+
+##########################option loaders###########################
 def bucket_list(bucket_choices):
     bucketlist=getbuckets()
     return bucketlist
@@ -132,6 +148,8 @@ def take_action(mainanswers):
             deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
     if mainanswers['service'] == 'EC2':
+
+        ############################INSTANCE ########################
         if mainanswers['action'] == 'Run Instances': ######### Will need to add more features here like ami id according to region
             os=input("What is the OS? ")
             count=input("How many servers you want to run? ")
@@ -157,6 +175,25 @@ def take_action(mainanswers):
             pprint(instance_choices) 
             terminateinstance(instance_choices)
             options.extend(['Terminate more servers','Exit'])
+
+
+        #########################SECURITY GROUP ################################
+        if mainanswers['action'] == 'Create Security Groups':
+            getsecuritygroups()
+            instance_choices = prompt(instance_choice, style=custom_style_2)
+            pprint(instance_choices) 
+            startinstance(instance_choices)
+            options.extend(['Start more servers','Exit'])
+        if mainanswers['action'] == 'List Security Groups':
+            getsecuritygroups()
+            
+            options.extend(['Create Security Groups','Delete Security Groups','Exit'])
+        if mainanswers['action'] == 'Delete Security Groups':
+            instance_choices = prompt(instance_choice, style=custom_style_2)
+            pprint(instance_choices) 
+            stopinstance(instance_choices)
+            options.extend(['Stop more servers','Exit'])
+
     return options
 
 
@@ -220,7 +257,9 @@ def get_service_data(mainanswers):
     elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
         getinstances()
-        options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances','Show Keypairs','Go Back'])
+        options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
+        Separator('---------Keypairs---------'),'Show Keypairs','Create Keypairs','Delete Keypairs',
+        Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
         print("\n #############Users############ \n ")
