@@ -11,7 +11,7 @@
 - [x] Add confirmation before taking actions
 - [ ] Add regions choices 
 - [ ] Replace the if statements with switch ## using dictionary or lambda
-- [ ] Add loop to go back to main menu if back is pressed
+- [x] Add loop to go back to main menu if back is pressed
         * [ ] Create fucntion which creates options maybe and then loop around
 - [x] Create Group function 
 - [x] Delete User function

@@ -181,6 +181,9 @@ def vpc_list(vpc_choices):
 
 ########  SUB QUESTIONS ###############################
 
+
+
+
 def take_action(mainanswers):
     options=[]
     
@@ -348,6 +351,9 @@ def take_action(mainanswers):
                 deletevpc(vpc_choices)
             options.extend(['Delete more VPC\'s','Exit'])
 
+    if mainanswers['action'] == 'Go Back':
+        main()
+
     return options
 
 
@@ -461,6 +467,8 @@ def get_service_data(mainanswers):
         
         options.extend(['Create VPC','Delete VPC','Go Back'])
 
+    
+
     return options
 
 
@@ -500,6 +508,7 @@ mainquestions = [
         'message': '>',
         'choices': take_action
     },
+  
 ]
 
 ########################## CONFIRMATION QUESTIONS #############
@@ -597,9 +606,14 @@ securitygroup_choice=[{
 #print('A small little CLI to interact with AWS Services')
 #print('Made with <3 by Darshan Raul \n')
 
-mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
 
-pprint(mainanswers) # print questions
+def main():
+
+    mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
+
+    pprint(mainanswers) # print questions
+  
+main()
 
 
 
