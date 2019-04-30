@@ -19,7 +19,7 @@ from time import sleep
 import sys
 
 from progress.bar import FillingCirclesBar
-
+from termcolor import colored, cprint
 
 ### initialize service clients #############
 s3 = boto3.client('s3')
@@ -30,13 +30,15 @@ f = Figlet(font='big')
 
 
 ################### progress bar function #########
-def progressbar():
+def progressbar(title):
     # for i in range(21):
     #     sys.stdout.write('\r')
     #     # the exact output you're looking for:
     #     sys.stdout.write("[%-20s] %d%%" % ('='*i, 5*i))
     #     sys.stdout.flush()
     #     sleep(0.05)
+    text = colored(str(title), 'red', attrs=['reverse', 'blink'])
+    print(text)
     bar = FillingCirclesBar('Processing', max=100)
     for i in range(100):
         # Do some work
@@ -179,7 +181,7 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             location=input("In which region do you want to create the bucket")
-            progressbar()
+            progressbar("Creating Bucket")
             s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
             print("\n \n Bucket " +bucket_name +" has been created \n \n")
             options.extend(['Create more buckets','Exit'])
@@ -321,30 +323,30 @@ def take_action(mainanswers):
 ################################DELETE FUNCTIONS   ##############################
 
 def deletebucket(bucket_choices):
-    print("deleting bucket")
-    progressbar()
+    #print("deleting bucket")
+    progressbar("Deleting Bucket")
     
     bucketname=bucket_choices['bucket'][0]
     print("\n \n Bucket " +bucketname +" has been deleted \n \n")
     s3.delete_bucket(  Bucket=str(bucketname))
 
 def deleteuser(user_choices):
-    print("deleting user")
-    progressbar()
+    #print("deleting user")
+    progressbar("Deleting user")
     username=user_choices['user'][0]
     print("\n \n User " +username +" has been deleted \n \n")
     iam.delete_user( UserName=str(username))
 
 def deletegroup(group_choices):
-    print("deleting group")
-    progressbar()
+    #print("deleting group")
+    progressbar("Deleting Group")
     groupname=group_choices['group'][0]
     print("\n \n Group " +groupname +" has been deleted \n \n")
     iam.delete_group( GroupName=str(groupname))
 
 def startinstance(instance_choices):
-    print("Starting Instance")
-    progressbar()
+    #print("Starting Instance")
+    progressbar(" Starting Instance")
     instancename=instance_choices['instance'][0]
     print("\n \n Instance " +instancename +" has been started \n \n")
     ec2.start_instances( InstanceIds=[
@@ -352,16 +354,16 @@ def startinstance(instance_choices):
     ])    
 
 def stopinstance(instance_choices):
-    print("Stopping Instance")
-    progressbar()
+    #print("Stopping Instance")
+    progressbar("Stopping Instances")
     instancename=instance_choices['instance'][0]
     print("\n \n Instance " +instancename +" has been stopped \n \n")
     ec2.stop_instances( InstanceIds=[
         str(instancename),
     ])
 def terminateinstance(instance_choices):
-    print("Terminating Instance")
-    progressbar()
+    #print("Terminating Instance")
+    progressbar("Terminating Instance")
     instancename=instance_choices['instance'][0]
     print("\n \n Instance " +instancename +" has been terminated \n \n")
     ec2.terminate_instances( InstanceIds=[
@@ -370,23 +372,23 @@ def terminateinstance(instance_choices):
 
 
 def deletekeypair(keypair_choices):
-    print("deleting keypair")
-    progressbar()
+    #print("deleting keypair")
+    progressbar("Deleting Keypair")
     keypairname=keypair_choices['keypair'][0]
     print("\n \n Keypair " +keypairname +" has been deleted \n \n")
     ec2.delete_key_pair(KeyName=str(keypairname))    
 
 
 def deletevpc(vpc_choices):
-    print("deleting vpc")
-    progressbar()
+    #print("deleting vpc")
+    progressbar("Deleting VPC")
     vpcname=vpc_choices['vpc'][0]
     print("\n \n vpc " +vpcname +" has been deleted \n \n")
     ec2.delete_vpc(VpcId=str(vpcname))    
 
 def deletesecuritygroup(securitygroup_choices):
-    print("deleting securitygroup")
-    progressbar()
+    #print("deleting securitygroup")
+    progressbar("Deleting Security Group")
     securitygroupname=securitygroup_choices['securitygroup'][0]
     print("\n \n securitygroup " +securitygroupname +" has been deleted \n \n")
     ec2.delete_security_group(GroupId=str(securitygroupname))    
@@ -549,9 +551,9 @@ securitygroup_choice=[{
 
 
 
-print (f.renderText('AWS CLI'))
-print('A small little CLI to interact with AWS Services')
-print('Made with <3 by Darshan Raul \n')
+#print (f.renderText('AWS CLI'))
+#print('A small little CLI to interact with AWS Services')
+#print('Made with <3 by Darshan Raul \n')
 
 mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
 
