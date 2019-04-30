@@ -46,6 +46,14 @@ def progressbar(title):
         bar.next()
     bar.finish()
 
+
+def getconfirmation():
+    confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
+
+    pprint(confirmation)
+
+    return confirmation['continue']
+
  ##########################getters#########################   
  # s3    
 def getbuckets(show):
@@ -181,10 +189,10 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             location=input("In which region do you want to create the bucket")
-            confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
+            #confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
 
-            pprint(confirmation)
-            if confirmation['continue']==True:
+            #pprint(confirmation)
+            if getconfirmation():
 
                 progressbar("Creating Bucket")
                 s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
@@ -193,8 +201,10 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Delete Bucket':
             
             bucket_choices = prompt(bucket_choice, style=custom_style_2)
-            pprint(bucket_choices) 
-            deletebucket(bucket_choices)
+            pprint(bucket_choices)
+            if getconfirmation():
+
+                deletebucket(bucket_choices)
             options.extend(['Delete more buckets','Exit'])
 
 
@@ -202,19 +212,23 @@ def take_action(mainanswers):
         ######################## IAM #######################
         if mainanswers['action'] == 'Create User':
             username=input("What is the name of the user you want to create: ")
-            print("Creating user")
-            iam.create_user( UserName=str(username))
+            if getconfirmation():
+                print("Creating user")
+                iam.create_user( UserName=str(username))
             options.extend(['Create More users','Exit'])
         if mainanswers['action'] == 'Create Group':
             groupname=input("What is the name of the group you want to create: ")
-            print("Creating group")
-            iam.create_group(GroupName=str(groupname))
+            if getconfirmation():
+                print("Creating group")
+                iam.create_group(GroupName=str(groupname))
             options.extend(['Create More Groups','Exit']) 
         if mainanswers['action'] == 'Delete User':
             
             user_choices = prompt(user_choice, style=custom_style_2)
-            pprint(user_choices) 
-            deleteuser(user_choices)
+            pprint(user_choices)
+            if getconfirmation():
+
+                deleteuser(user_choices)
             
             #pprint(bucket_choices) 
             #deletebucket(bucket_choices)
@@ -222,8 +236,10 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Delete Group':
             print("Make sure that the Group is empty before you delete it")
             group_choices = prompt(group_choice, style=custom_style_2)
-            pprint(group_choices) 
-            deletegroup(group_choices)
+            pprint(group_choices)
+            if getconfirmation():
+
+                deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])   
 
 
@@ -235,25 +251,30 @@ def take_action(mainanswers):
             count=input("How many servers you want to run? ")
             instance_type=input("Which Instance type you want to run")
             keyname=input("Which key pair you want to use")
-            ec2.run_instances( ImageId=str(os),
-            InstanceType=str(instance_type),MaxCount=int(count),
-            MinCount=int(count),KeyName=str(keyname))
-            print("Running instances now")
+            if getconfirmation():
+                ec2.run_instances( ImageId=str(os),
+                InstanceType=str(instance_type),MaxCount=int(count),
+                MinCount=int(count),KeyName=str(keyname))
+                print("Running instances now")
             options.extend(['Run more servers','Exit'])
         if mainanswers['action'] == 'Start Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
-            pprint(instance_choices) 
-            startinstance(instance_choices)
+            pprint(instance_choices)
+            if getconfirmation(): 
+                startinstance(instance_choices)
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'Stop Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
-            pprint(instance_choices) 
-            stopinstance(instance_choices)
+            pprint(instance_choices)
+            if getconfirmation(): 
+                stopinstance(instance_choices)
             options.extend(['Stop more servers','Exit'])
         if mainanswers['action'] == 'Terminate Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices) 
-            terminateinstance(instance_choices)
+            if getconfirmation():
+
+                terminateinstance(instance_choices)
             options.extend(['Terminate more servers','Exit'])
 
 
@@ -266,12 +287,13 @@ def take_action(mainanswers):
             vpc_choices = prompt(vpc_choice, style=custom_style_2)
             pprint(vpc_choices)
             vpcid=vpc_choices['vpc'][0]
-            ec2.create_security_group(
-            Description=str(description),
-            GroupName=str(groupname),
-            VpcId=str(vpcid)
+            if getconfirmation():
+                ec2.create_security_group(
+                Description=str(description),
+                GroupName=str(groupname),
+                VpcId=str(vpcid)
             
-            )
+                )
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'List Security Groups':
             getsecuritygroups(True)
@@ -280,17 +302,18 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Delete Security Groups':
             securitygroup_choices = prompt(securitygroup_choice, style=custom_style_2)
             pprint(securitygroup_choices) 
-            
-            deletesecuritygroup(securitygroup_choices)
+            if getconfirmation():
+                deletesecuritygroup(securitygroup_choices)
             options.extend(['Delete more securitygroups','Exit'])
 
         #########################KEYPAIRS ################################
         if mainanswers['action'] == 'Create Keypairs':
             keyname=input("What is the name of the keypair you want to create? ")
             #path=input("Whre do you want to save the keypair? ")
-            key=ec2.create_key_pair(
-            KeyName=str(keyname)
-            )
+            if getconfirmation():
+                key=ec2.create_key_pair(
+                KeyName=str(keyname)
+                )
             #key.save(str(path))
             options.extend(['Create more keypairs','Exit'])
         if mainanswers['action'] == 'List Keypairs':
@@ -299,8 +322,9 @@ def take_action(mainanswers):
             options.extend(['Create Keypairs','Delete Keypairs','Exit'])
         if mainanswers['action'] == 'Delete Keypairs':
             keypair_choices = prompt(keypair_choice, style=custom_style_2)
-            pprint(keypair_choices) 
-            deletekeypair(keypair_choices)
+            pprint(keypair_choices)
+            if getconfirmation(): 
+                deletekeypair(keypair_choices)
             options.extend(['Delete more Keypairs','Exit'])
 
 
@@ -311,15 +335,17 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create VPC':
             cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
             #path=input("Whre do you want to save the keypair? ")
-            ec2.create_vpc(
-            CidrBlock=str(cidrblock))
+            if getconfirmation():
+                ec2.create_vpc(
+                CidrBlock=str(cidrblock))
             #key.save(str(path))
             options.extend(['Create more VPC\'s','Exit'])
        
         if mainanswers['action'] == 'Delete VPC':
             vpc_choices = prompt(vpc_choice, style=custom_style_2)
-            pprint(vpc_choices) 
-            deletevpc(vpc_choices)
+            pprint(vpc_choices)
+            if getconfirmation(): 
+                deletevpc(vpc_choices)
             options.extend(['Delete more VPC\'s','Exit'])
 
     return options
