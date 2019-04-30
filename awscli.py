@@ -92,6 +92,17 @@ def getgroups(show):
 
     return grouplist
 
+def getaccesskeys(show):
+    accesskeys=iam.list_access_keys()
+    accesskeylist=[]
+        
+    for accesskey in accesskeys['AccessKeyMetadata']:
+        name=accesskey['UserName']
+        if show:
+            print("> "+name)
+        accesskeylist.append({"name":name})
+
+    return accesskeylist
 # ec2
 def getinstances(show):
     serverlist=[]
@@ -243,7 +254,13 @@ def take_action(mainanswers):
             if getconfirmation():
 
                 deletegroup(group_choices)
-            options.extend(['Delete more groups','Exit'])   
+            options.extend(['Delete more groups','Exit'])
+
+        if mainanswers['action'] == 'List Access Keys':
+            
+            getaccesskeys(True)
+            
+            options.extend(['Continue','Exit'])   
 
 
     if mainanswers['service'] == 'EC2':
