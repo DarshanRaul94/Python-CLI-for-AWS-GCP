@@ -459,14 +459,20 @@ def get_service_data(mainanswers):
         getusers(True)
         print("\n #############Groups############ \n ")
         getgroups(True)
-        options.extend(['Create User','Create Group','Delete User','Delete Group','Go Back'])
+        options.extend(['Create User','Create Group','Add User to Group','Delete User','Delete Group',
+        Separator('---------Keys---------'),'List Access Keys','Create Access Keys','Delete Access keys',
+        Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
+        Separator('---------Policy---------'),'List Policies','Create Policies','Delete Policies','Go Back'])
              
     elif mainanswers['service'] == 'VPC':
         print("\n #############VPC's############ \n ")
         getvpcs(True)
         
         options.extend(['Create VPC','Delete VPC','Go Back'])
-
+    elif mainanswers['service'] == 'Exit':
+        sys.exit()
+        
+        #options.extend(['Create VPC','Delete VPC','Go Back'])
     
 
     return options
@@ -491,7 +497,8 @@ mainquestions = [
             'VPC',
             Separator('---------Management Services---------'),
             'IAM',
-            'Cloudwatch'
+            'Cloudwatch',
+            'Exit'
 
         ]
     },

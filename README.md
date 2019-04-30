@@ -41,6 +41,7 @@
     - [ ] list roles
 	- [ ] Delete roles
 - [ ] Add test's using pytest by creating small scenarios 
+- [x] Add exit to main menu
 - [ ] FINAL : Package the whole thing and post on pypi
 
 # References/Inspiration:
