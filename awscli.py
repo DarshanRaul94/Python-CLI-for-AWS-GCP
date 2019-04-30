@@ -181,9 +181,14 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             location=input("In which region do you want to create the bucket")
-            progressbar("Creating Bucket")
-            s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
-            print("\n \n Bucket " +bucket_name +" has been created \n \n")
+            confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
+
+            pprint(confirmation)
+            if confirmation['continue']==True:
+
+                progressbar("Creating Bucket")
+                s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
+                print("\n \n Bucket " +bucket_name +" has been created \n \n")
             options.extend(['Create more buckets','Exit'])
         if mainanswers['action'] == 'Delete Bucket':
             
@@ -402,7 +407,9 @@ def deletesecuritygroup(securitygroup_choices):
 def get_service_data(mainanswers):
     options = []
     if mainanswers['service'] == 'S3':
-        print("\n #############Buckets############ \n ")
+        text = colored("\n #############Buckets############ ", 'green', attrs=['reverse', 'blink'])
+        print(text +'\n')
+        #print()
         getbuckets(True)
         options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'])
         
@@ -469,7 +476,16 @@ mainquestions = [
     },
 ]
 
-
+########################## CONFIRMATION QUESTIONS #############
+confirmquestions = [
+    {
+        'type': 'confirm',
+        'message': 'Do you want to continue?',
+        'name': 'continue',
+        'default': True,
+    },
+    
+]
 
 ###########################CHECKBOXES############################
 

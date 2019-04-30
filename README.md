@@ -8,6 +8,7 @@
 
 # TODO:
 - [x] Have a look at other CLI offerings and look how you can do something different
+- [x] Add confirmation before taking actions
 - [ ] Add regions choices 
 - [ ] Replace the if statements with switch ## using dictionary or lambda
 - [ ] Add loop to go back to main menu if back is pressed
