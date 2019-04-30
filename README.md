@@ -33,7 +33,13 @@
 - [x] Add progress bar when creating/deleting things
 - [ ] RDS create
 - [ ] RDS delete
-
+ - [ ] IAM
+    - [ ] Create policy by providing json policy
+    - [ ] Add user to group
+    - [ ] delete access key		
+    - [ ] list access keys
+    - [ ] list roles
+	- [ ] Delete roles
 - [ ] Add test's using pytest by creating small scenarios 
 - [ ] FINAL : Package the whole thing and post on pypi
 
