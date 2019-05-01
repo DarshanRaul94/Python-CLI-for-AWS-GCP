@@ -36,7 +36,7 @@
 - [ ] RDS delete
  - [ ] IAM
     - [ ] Create policy by providing json policy
-    - [ ] Add user to group
+    - [x] Add user to group
     - [ ] delete access key		
     - [x] list access keys
     - [ ] list roles

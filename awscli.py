@@ -256,6 +256,23 @@ def take_action(mainanswers):
 
                 deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])
+        
+        if mainanswers['action'] == 'Add User to Group':
+            print("Select the user you want to add")
+            user_choices = prompt(user_choice, style=custom_style_2)
+            pprint(user_choices)
+            userid=user_choices['user'][0]
+            group_choices = prompt(group_choice, style=custom_style_2)
+            pprint(group_choices)
+            groupid=group_choices['group'][0]
+            if getconfirmation():
+
+                iam.add_user_to_group(
+                GroupName=str(groupid),
+                UserName=str(userid)
+                )
+            
+            options.extend(['Continue','Exit'])  
 
         if mainanswers['action'] == 'List Access Keys':
             
@@ -263,6 +280,7 @@ def take_action(mainanswers):
             
             options.extend(['Continue','Exit'])   
 
+        
 
     if mainanswers['service'] == 'EC2':
 
@@ -630,16 +648,12 @@ securitygroup_choice=[{
 
 
 
-#print (f.renderText('AWS CLI'))
-#print('A small little CLI to interact with AWS Services')
-#print('Made with <3 by Darshan Raul \n')
-
 
     
     
-print (f.renderText('AWS CLI'))
-print('A small little CLI to interact with AWS Services')
-print('Made with <3 by Darshan Raul \n')   
+# print (f.renderText('AWS CLI'))
+# print('A small little CLI to interact with AWS Services')
+# print('Made with <3 by Darshan Raul \n')   
 
     
 mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
