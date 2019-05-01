@@ -536,7 +536,7 @@ def get_service_data(mainanswers):
         print("\n #############Groups############ \n ")
         getgroups(True)
         options.extend(['Create User','Create Group','Add User to Group','Delete User','Delete Group',
-        Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access key',
+        Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access Key',
         Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
         Separator('---------Policy---------'),'List Policies','Create Policies','Delete Policies','Go Back'])
              

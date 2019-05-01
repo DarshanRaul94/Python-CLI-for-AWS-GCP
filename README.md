@@ -37,7 +37,7 @@
  - [ ] IAM
     - [ ] Create policy by providing json policy
     - [x] Add user to group
-    - [ ] delete access key
+    - [x] delete access key
     - [x] create access keys
     - [x] list access keys
     - [ ] list roles
