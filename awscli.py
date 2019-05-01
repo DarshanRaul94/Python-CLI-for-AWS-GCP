@@ -99,9 +99,10 @@ def getaccesskeys(show):
         
     for accesskey in accesskeys['AccessKeyMetadata']:
         name=accesskey['UserName']
+        accesskeyid=accesskey['AccessKeyId']
         if show:
             print("> "+name)
-        accesskeylist.append({"name":name})
+        accesskeylist.append({"name":accesskeyid})
 
     return accesskeylist
 # ec2
@@ -173,6 +174,12 @@ def group_list(bucket_choices):
     grouplist=getgroups(False)
     return grouplist
 
+
+def accesskey_list(accesskey_choices):
+    accesskeylist=getaccesskeys(False)
+    return accesskeylist
+
+    
 def instance_list(instance_choices):
     instancelist=getinstances(False)
     return instancelist
@@ -280,7 +287,26 @@ def take_action(mainanswers):
             
             options.extend(['Continue','Exit'])   
 
-        
+        if mainanswers['action'] == 'Create Access Key':
+            print("Select the user you want to create accesskey for")
+            user_choices = prompt(user_choice, style=custom_style_2)
+            pprint(user_choices)
+            userid=user_choices['user'][0]
+            if getconfirmation():
+
+                iam.create_access_key(
+                UserName=str(userid)
+                )
+            options.extend(['Create More accesskeys','Exit'])
+
+        if mainanswers['action'] == 'Delete Access Key':
+            
+            accesskey_choices = prompt(accesskey_choice, style=custom_style_2)
+            pprint(accesskey_choices)
+            if getconfirmation():
+
+                deleteaccesskey(accesskey_choices)
+            options.extend(['Delete more accesskeys','Exit'])
 
     if mainanswers['service'] == 'EC2':
 
@@ -420,6 +446,17 @@ def deletegroup(group_choices):
     print("\n \n Group " +groupname +" has been deleted \n \n")
     iam.delete_group( GroupName=str(groupname))
 
+
+def deleteaccesskey(accesskey_choices):
+    #print("deleting group")
+    progressbar("Deleting Access Key")
+    accesskeyname=accesskey_choices['accesskey'][0]
+    print("\n \n Accesskey " +accesskeyname +" has been deleted \n \n")
+    iam.delete_access_key(
+    AccessKeyId=str(accesskeyname)
+    )
+
+
 def startinstance(instance_choices):
     #print("Starting Instance")
     progressbar(" Starting Instance")
@@ -490,7 +527,7 @@ def get_service_data(mainanswers):
         print("\n #############Instances############ \n ")
         getinstances(True)
         options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
-        Separator('---------Keypairs---------'),'List Keypairs','Create Keypairs','Delete Keypairs',
+        Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypairs',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
 
     elif mainanswers['service'] == 'IAM':
@@ -499,7 +536,7 @@ def get_service_data(mainanswers):
         print("\n #############Groups############ \n ")
         getgroups(True)
         options.extend(['Create User','Create Group','Add User to Group','Delete User','Delete Group',
-        Separator('---------Keys---------'),'List Access Keys','Create Access Keys','Delete Access keys',
+        Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access key',
         Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
         Separator('---------Policy---------'),'List Policies','Create Policies','Delete Policies','Go Back'])
              
@@ -599,6 +636,16 @@ group_choice=[{
         'choices': group_list
 }
         ]
+
+accesskey_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select accesskeys',
+        'name': 'accesskey',
+        #'choices': ['test1','test2'],
+        'choices': accesskey_list
+}
+        ]        
 
 instance_choice=[{
         'type': 'checkbox',
