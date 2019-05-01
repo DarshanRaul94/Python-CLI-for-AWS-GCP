@@ -13,6 +13,7 @@
 - [ ] Replace the if statements with switch ## using dictionary or lambda
 - [x] Add loop to go back to main menu if back is pressed
         * [ ] Create fucntion which creates options maybe and then loop around
+- [ ] Integrate pytest to check if code is working
 - [x] Create Group function 
 - [x] Delete User function
 - [x] Delete Group function

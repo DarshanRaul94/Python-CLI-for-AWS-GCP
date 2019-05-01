@@ -8,6 +8,7 @@ from PyInquirer import style_from_dict, Token, prompt, Separator
 
 from examples import custom_style_2
 
+count = 0
 
 ################ Logo #####################
 from pyfiglet import Figlet
@@ -369,7 +370,10 @@ def take_action(mainanswers):
             options.extend(['Delete more VPC\'s','Exit'])
 
     if mainanswers['action'] == 'Go Back':
-        main()
+        mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
+        print("incoming")
+        pprint(mainanswers)
+        get_service_data(mainanswers)
 
     return options
 
@@ -631,13 +635,17 @@ securitygroup_choice=[{
 #print('Made with <3 by Darshan Raul \n')
 
 
-def main():
+    
+    
+print (f.renderText('AWS CLI'))
+print('A small little CLI to interact with AWS Services')
+print('Made with <3 by Darshan Raul \n')   
 
-    mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
+    
+mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
 
-    pprint(mainanswers) # print questions
+pprint(mainanswers) # print questions
   
-main()
 
 
 
