@@ -15,6 +15,7 @@ from pyfiglet import Figlet
 
 ########### AWS #####################
 import boto3
+import botocore
 ############ progress bar ##########################
 from time import sleep
 import sys
@@ -219,8 +220,8 @@ def take_action(mainanswers):
                 progressbar("Creating Bucket")
                 try:
                     s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
-                except ClientError as e:
-                    print("Error",e)
+                except botocore.errorfactory.ClientError as e:
+                    print("There was an error while creating Bucket: \n\n\n",e)
 
                 print("\n \n Bucket " +bucket_name +" has been created \n \n")
             options.extend(['Create more buckets','Exit'])
