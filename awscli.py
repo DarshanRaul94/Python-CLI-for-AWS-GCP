@@ -65,7 +65,11 @@ def getconfirmation():
  # s3    
 def getbuckets(show):
     bucketlist=[]
-    buckets=s3.list_buckets()
+    try:
+        buckets=s3.list_buckets()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting bucket data: \n\n\n")
+                    print(e)
     for i in buckets['Buckets']:
         bucket= i['Name']
         if show:
@@ -77,7 +81,11 @@ def getbuckets(show):
 
 # iam
 def getusers(show):
-    users=iam.list_users()
+    try:
+        users=iam.list_users()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting user data: \n\n\n")
+                    print(e)
     userlist=[]
     
     for user in users['Users']:
@@ -88,7 +96,11 @@ def getusers(show):
     return userlist
 
 def getgroups(show):
-    groups=iam.list_groups()
+    try:
+        groups=iam.list_groups()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting group data: \n\n\n")
+                    print(e)
     grouplist=[]
         
     for group in groups['Groups']:
@@ -100,7 +112,11 @@ def getgroups(show):
     return grouplist
 
 def getaccesskeys(show):
-    accesskeys=iam.list_access_keys()
+    try:
+        accesskeys=iam.list_access_keys()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting access key data: \n\n\n")
+                    print(e)
     accesskeylist=[]
         
     for accesskey in accesskeys['AccessKeyMetadata']:
@@ -115,7 +131,11 @@ def getaccesskeys(show):
 def getinstances(show):
     serverlist=[]
     count=0
-    servers=ec2.describe_instances()
+    try:
+        servers=ec2.describe_instances()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting ec2 instance data: \n\n\n")
+                    print(e)
     for reservation in servers['Reservations']:
         for inst in reservation['Instances']:
             count+=1
@@ -130,7 +150,11 @@ def getinstances(show):
 def getsecuritygroups(show):
     securitygrouplist=[]
     count=0
-    securitygroups=ec2.describe_security_groups()
+    try:
+        securitygroups=ec2.describe_security_groups()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting security group data: \n\n\n")
+                    print(e)
     for securitygroup in securitygroups['SecurityGroups']:
         name=securitygroup['GroupName']
         
@@ -144,7 +168,11 @@ def getsecuritygroups(show):
 def getkeypairs(show):
     keypairlist=[]
     count=0
-    keypairs=ec2.describe_key_pairs()
+    try:
+        keypairs=ec2.describe_key_pairs()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting keypair data: \n\n\n")
+                    print(e)
     for keypair in keypairs['KeyPairs']:
         name=keypair['KeyName']
         
@@ -156,7 +184,11 @@ def getkeypairs(show):
 def getvpcs(show):
     vpclist=[]
     count=0
-    vpcs=ec2.describe_vpcs()
+    try:
+        vpcs=ec2.describe_vpcs()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting vpc data: \n\n\n")
+                    print(e)
     for vpc in vpcs['Vpcs']:
         name=vpc['VpcId']
         cidr=vpc['CidrBlock']
