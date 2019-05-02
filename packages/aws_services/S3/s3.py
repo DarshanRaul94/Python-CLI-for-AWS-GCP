@@ -1,6 +1,7 @@
 import boto3
 import botocore
 
+
 s3 = boto3.client('s3')
 
 def getbuckets(show):
