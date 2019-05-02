@@ -210,14 +210,18 @@ def take_action(mainanswers):
         ######################## S3 #########################
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
-            location=input("In which region do you want to create the bucket")
+            #location=input("In which region do you want to create the bucket")
             #confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
 
             #pprint(confirmation)
             if getconfirmation():
 
                 progressbar("Creating Bucket")
-                s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
+                try:
+                    s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
+                except ClientError as e:
+                    print("Error",e)
+
                 print("\n \n Bucket " +bucket_name +" has been created \n \n")
             options.extend(['Create more buckets','Exit'])
         if mainanswers['action'] == 'Delete Bucket':
