@@ -23,6 +23,8 @@ import sys
 from progress.bar import FillingCirclesBar
 from termcolor import colored, cprint
 
+
+from packages import test
 ### initialize service clients #############
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
@@ -824,8 +826,7 @@ securitygroup_choice=[{
 # print (f.renderText('AWS CLI'))
 # print('A small little CLI to interact with AWS Services')
 # print('Made with <3 by Darshan Raul \n')   
-
-    
+test.printMembers()
 mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
 
 pprint(mainanswers) # print questions
