@@ -237,8 +237,9 @@ def take_action(mainanswers):
             bucket_choices = prompt(bucket_choice, style=custom_style_2)
             pprint(bucket_choices)
             if getconfirmation():
-
+                
                 deletebucket(bucket_choices)
+                
             options.extend(['Delete more buckets','Exit'])
 
 
@@ -441,82 +442,130 @@ def deletebucket(bucket_choices):
     progressbar("Deleting Bucket")
     
     bucketname=bucket_choices['bucket'][0]
-    print("\n \n Bucket " +bucketname +" has been deleted \n \n")
-    s3.delete_bucket(  Bucket=str(bucketname))
+    try:
+        s3.delete_bucket(  Bucket=str(bucketname))
+        print("\n \n Bucket " +bucketname +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting Bucket: \n\n\n")
+                    print(e)       
+
+
+    
+    
 
 def deleteuser(user_choices):
     #print("deleting user")
     progressbar("Deleting user")
     username=user_choices['user'][0]
-    print("\n \n User " +username +" has been deleted \n \n")
-    iam.delete_user( UserName=str(username))
+    try:
+        iam.delete_user( UserName=str(username))
+        print("\n \n User " +username +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting user: \n\n\n")
+                    print(e)
 
 def deletegroup(group_choices):
     #print("deleting group")
     progressbar("Deleting Group")
     groupname=group_choices['group'][0]
-    print("\n \n Group " +groupname +" has been deleted \n \n")
-    iam.delete_group( GroupName=str(groupname))
+    try:
+        iam.delete_group( GroupName=str(groupname))
+        print("\n \n Group " +groupname +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting group: \n\n\n")
+                    print(e)
 
 
 def deleteaccesskey(accesskey_choices):
     #print("deleting group")
     progressbar("Deleting Access Key")
     accesskeyname=accesskey_choices['accesskey'][0]
-    print("\n \n Accesskey " +accesskeyname +" has been deleted \n \n")
-    iam.delete_access_key(
-    AccessKeyId=str(accesskeyname)
-    )
+    try:
+    
+        iam.delete_access_key(
+        AccessKeyId=str(accesskeyname)
+        )
+        print("\n \n Accesskey " +accesskeyname +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting access key: \n\n\n")
+                    print(e)
 
 
 def startinstance(instance_choices):
     #print("Starting Instance")
     progressbar(" Starting Instance")
     instancename=instance_choices['instance'][0]
-    print("\n \n Instance " +instancename +" has been started \n \n")
-    ec2.start_instances( InstanceIds=[
-        str(instancename),
-    ])    
+    try:
+        
+        ec2.start_instances( InstanceIds=[
+            str(instancename),
+        ])
+        print("\n \n Instance " +instancename +" has been started \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while starting instance: \n\n\n")
+                    print(e)    
 
 def stopinstance(instance_choices):
     #print("Stopping Instance")
     progressbar("Stopping Instances")
     instancename=instance_choices['instance'][0]
-    print("\n \n Instance " +instancename +" has been stopped \n \n")
-    ec2.stop_instances( InstanceIds=[
-        str(instancename),
-    ])
+    try:  
+        ec2.stop_instances( InstanceIds=[
+            str(instancename),
+        ])
+        print("\n \n Instance " +instancename +" has been stopped \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while stopping instance: \n\n\n")
+                    print(e)
+
 def terminateinstance(instance_choices):
     #print("Terminating Instance")
     progressbar("Terminating Instance")
     instancename=instance_choices['instance'][0]
-    print("\n \n Instance " +instancename +" has been terminated \n \n")
-    ec2.terminate_instances( InstanceIds=[
-        str(instancename),
-    ]) 
+    try:
+        ec2.terminate_instances( InstanceIds=[
+            str(instancename),
+        ])
+        print("\n \n Instance " +instancename +" has been terminated \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while terminating instance: \n\n\n")
+                    print(e) 
 
 
 def deletekeypair(keypair_choices):
     #print("deleting keypair")
     progressbar("Deleting Keypair")
     keypairname=keypair_choices['keypair'][0]
-    print("\n \n Keypair " +keypairname +" has been deleted \n \n")
-    ec2.delete_key_pair(KeyName=str(keypairname))    
+    try:
+        ec2.delete_key_pair(KeyName=str(keypairname))
+        print("\n \n Keypair " +keypairname +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting keypair: \n\n\n")
+                    print(e)    
 
 
 def deletevpc(vpc_choices):
     #print("deleting vpc")
     progressbar("Deleting VPC")
     vpcname=vpc_choices['vpc'][0]
-    print("\n \n vpc " +vpcname +" has been deleted \n \n")
-    ec2.delete_vpc(VpcId=str(vpcname))    
+    try:
+        ec2.delete_vpc(VpcId=str(vpcname))
+        print("\n \n vpc " +vpcname +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting vpc: \n\n\n")
+                    print(e)    
 
 def deletesecuritygroup(securitygroup_choices):
     #print("deleting securitygroup")
     progressbar("Deleting Security Group")
     securitygroupname=securitygroup_choices['securitygroup'][0]
-    print("\n \n securitygroup " +securitygroupname +" has been deleted \n \n")
-    ec2.delete_security_group(GroupId=str(securitygroupname))    
+    try:
+
+        print("\n \n securitygroup " +securitygroupname +" has been deleted \n \n")
+        ec2.delete_security_group(GroupId=str(securitygroupname))
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting security group: \n\n\n")
+                    print(e)    
 
 
 
