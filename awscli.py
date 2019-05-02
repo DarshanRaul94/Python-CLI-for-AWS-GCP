@@ -24,7 +24,7 @@ from progress.bar import FillingCirclesBar
 from termcolor import colored, cprint
 
 
-from packages import test
+from packages.aws_services.S3 import s3 as s3class
 ### initialize service clients #############
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
@@ -65,20 +65,20 @@ def getconfirmation():
 
  ##########################getters#########################   
  # s3    
-def getbuckets(show):
-    bucketlist=[]
-    try:
-        buckets=s3.list_buckets()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting bucket data: \n\n\n")
-                    print(e)
-    for i in buckets['Buckets']:
-        bucket= i['Name']
-        if show:
-            print("> " +bucket)
-        bucketlist.append({'name':bucket})
-    #print(bucketlist)
-    return bucketlist
+# def getbuckets(show):
+#     bucketlist=[]
+#     try:
+#         buckets=s3.list_buckets()
+#     except botocore.exceptions.ClientError as e:
+#                     coloredtext("There was an error while getting bucket data: \n\n\n")
+#                     print(e)
+#     for i in buckets['Buckets']:
+#         bucket= i['Name']
+#         if show:
+#             print("> " +bucket)
+#         bucketlist.append({'name':bucket})
+#     #print(bucketlist)
+#     return bucketlist
 
 
 # iam
@@ -203,7 +203,7 @@ def getvpcs(show):
 ##########################option loaders###########################
 
 def bucket_list(bucket_choices):
-    bucketlist=getbuckets(False)
+    bucketlist=s3class.getbuckets(False)
     return bucketlist
 
 def user_list(bucket_choices):
@@ -643,7 +643,7 @@ def get_service_data(mainanswers):
         text = colored("\n #############Buckets############ ", 'green', attrs=['reverse', 'blink'])
         print(text +'\n')
         #print()
-        getbuckets(True)
+        s3class.getbuckets(True)
         options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'])
         
 
@@ -826,7 +826,7 @@ securitygroup_choice=[{
 # print (f.renderText('AWS CLI'))
 # print('A small little CLI to interact with AWS Services')
 # print('Made with <3 by Darshan Raul \n')   
-test.printMembers()
+
 mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
 
 pprint(mainanswers) # print questions
