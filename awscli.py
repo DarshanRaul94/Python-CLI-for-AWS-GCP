@@ -248,14 +248,22 @@ def take_action(mainanswers):
         if mainanswers['action'] == 'Create User':
             username=input("What is the name of the user you want to create: ")
             if getconfirmation():
-                print("Creating user")
-                iam.create_user( UserName=str(username))
+                try:
+                    print("Creating user")
+                    iam.create_user( UserName=str(username))
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating user: \n\n\n")
+                    print(e)
             options.extend(['Create More users','Exit'])
         if mainanswers['action'] == 'Create Group':
             groupname=input("What is the name of the group you want to create: ")
             if getconfirmation():
-                print("Creating group")
-                iam.create_group(GroupName=str(groupname))
+                try:
+                    print("Creating group")
+                    iam.create_group(GroupName=str(groupname))
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating group: \n\n\n")
+                    print(e)
             options.extend(['Create More Groups','Exit']) 
         if mainanswers['action'] == 'Delete User':
             
@@ -286,11 +294,14 @@ def take_action(mainanswers):
             pprint(group_choices)
             groupid=group_choices['group'][0]
             if getconfirmation():
-
-                iam.add_user_to_group(
-                GroupName=str(groupid),
-                UserName=str(userid)
-                )
+                try:
+                    iam.add_user_to_group(
+                    GroupName=str(groupid),
+                    UserName=str(userid)
+                    )
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while adding user to group: \n\n\n")
+                    print(e)
             
             options.extend(['Continue','Exit'])  
 
@@ -306,10 +317,13 @@ def take_action(mainanswers):
             pprint(user_choices)
             userid=user_choices['user'][0]
             if getconfirmation():
-
-                iam.create_access_key(
-                UserName=str(userid)
-                )
+                try:
+                    iam.create_access_key(
+                    UserName=str(userid)
+                    )
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating access key: \n\n\n")
+                    print(e)
             options.extend(['Create More accesskeys','Exit'])
 
         if mainanswers['action'] == 'Delete Access Key':
@@ -330,10 +344,14 @@ def take_action(mainanswers):
             instance_type=input("Which Instance type you want to run")
             keyname=input("Which key pair you want to use")
             if getconfirmation():
-                ec2.run_instances( ImageId=str(os),
-                InstanceType=str(instance_type),MaxCount=int(count),
-                MinCount=int(count),KeyName=str(keyname))
-                print("Running instances now")
+                try:
+                    ec2.run_instances( ImageId=str(os),
+                    InstanceType=str(instance_type),MaxCount=int(count),
+                    MinCount=int(count),KeyName=str(keyname))
+                    print("Running instances now")
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while run instance: \n\n\n")
+                    print(e)
             options.extend(['Run more servers','Exit'])
         if mainanswers['action'] == 'Start Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
@@ -366,12 +384,16 @@ def take_action(mainanswers):
             pprint(vpc_choices)
             vpcid=vpc_choices['vpc'][0]
             if getconfirmation():
-                ec2.create_security_group(
-                Description=str(description),
-                GroupName=str(groupname),
-                VpcId=str(vpcid)
-            
-                )
+                try:
+                    ec2.create_security_group(
+                    Description=str(description),
+                    GroupName=str(groupname),
+                    VpcId=str(vpcid)
+                
+                    )
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating security group: \n\n\n")
+                    print(e)
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'List Security Groups':
             getsecuritygroups(True)
@@ -389,9 +411,13 @@ def take_action(mainanswers):
             keyname=input("What is the name of the keypair you want to create? ")
             #path=input("Whre do you want to save the keypair? ")
             if getconfirmation():
-                key=ec2.create_key_pair(
-                KeyName=str(keyname)
-                )
+                try:
+                    key=ec2.create_key_pair(
+                    KeyName=str(keyname)
+                    )
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating keypair: \n\n\n")
+                    print(e)
             #key.save(str(path))
             options.extend(['Create more keypairs','Exit'])
         if mainanswers['action'] == 'List Keypairs':
@@ -414,8 +440,12 @@ def take_action(mainanswers):
             cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
             #path=input("Whre do you want to save the keypair? ")
             if getconfirmation():
-                ec2.create_vpc(
-                CidrBlock=str(cidrblock))
+                try:
+                    ec2.create_vpc(
+                    CidrBlock=str(cidrblock))
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating VPC: \n\n\n")
+                    print(e)
             #key.save(str(path))
             options.extend(['Create more VPC\'s','Exit'])
        
