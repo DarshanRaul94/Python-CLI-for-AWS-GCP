@@ -1,1 +1,3 @@
-import choices
+from .choices import *
+
+choices.printMembers()

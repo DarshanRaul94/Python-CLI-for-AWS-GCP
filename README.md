@@ -13,10 +13,16 @@
         - [x] Make exceptions appear in red
 - [ ] Use a class/package based approach
         - [ ] Create seperate classes for different questions
+        - [ ] Create modules for:
+                - [ ] get functions
+                - [ ] Choice arrays
+                - [ ] Action functions 
         - [ ] Create different classes for different AWS services:
                 - [ ] S3
                 - [ ] IAM
                 - [ ] EC2
+- [ ] Add docstring to all functions
+- [ ] Use Spinx or Read the docs to create documentation for the package
 - [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
 - [x] Have a look at other CLI offerings and look how you can do something different
 - [x] Add confirmation before taking actions
@@ -55,7 +61,7 @@
 	- [ ] Delete roles
 - [ ] Add test's using pytest by creating small scenarios 
 - [x] Add exit to main menu
-- [ ] Add keyboard shortcuts for commiting in vscode
+- [x] Add keyboard shortcuts for commiting in vscode
 - [ ] FINAL : Package the whole thing and post on pypi
 
 # References/Inspiration:
