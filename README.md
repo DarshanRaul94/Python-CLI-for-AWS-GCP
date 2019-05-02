@@ -7,6 +7,14 @@
 
 
 # TODO:
+- [ ] Add excpetion handling
+- [ ] Use a class/package based approach
+        - [ ] Create seperate classes for different questions
+        - [ ] Create different classes for different AWS services:
+                - [ ] S3
+                - [ ] IAM
+                - [ ] EC2
+                
 - [x] Have a look at other CLI offerings and look how you can do something different
 - [x] Add confirmation before taking actions
 - [ ] Add regions choices 
