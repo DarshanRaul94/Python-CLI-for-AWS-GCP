@@ -49,6 +49,11 @@ def progressbar(title):
     bar.finish()
 
 
+def coloredtext(input):
+    text = colored(str(input), 'red', attrs=['reverse', 'blink'])
+    print(text)
+
+
 def getconfirmation():
     confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
 
@@ -220,10 +225,12 @@ def take_action(mainanswers):
                 progressbar("Creating Bucket")
                 try:
                     s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
-                except botocore.errorfactory.ClientError as e:
-                    print("There was an error while creating Bucket: \n\n\n",e)
+                    print("\n \n Bucket " +bucket_name +" has been created \n \n")
+                except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while creating Bucket: \n\n\n")
+                    print(e)
 
-                print("\n \n Bucket " +bucket_name +" has been created \n \n")
+                
             options.extend(['Create more buckets','Exit'])
         if mainanswers['action'] == 'Delete Bucket':
             
