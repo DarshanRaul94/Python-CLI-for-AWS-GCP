@@ -17,7 +17,7 @@
                 - [ ] S3
                 - [ ] IAM
                 - [ ] EC2
-
+- [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
 - [x] Have a look at other CLI offerings and look how you can do something different
 - [x] Add confirmation before taking actions
 - [ ] Add regions choices 
