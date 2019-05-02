@@ -7,10 +7,10 @@
 
 
 # TODO:
-- [ ] Add excpetion handling
+- [x] Add excpetion handling
         - [ ] create a base class for exceptions defined by this cli
         - [ ] Add finally clauses wherever needed
-        - [ ] Make exceptions appear in red
+        - [x] Make exceptions appear in red
 - [ ] Use a class/package based approach
         - [ ] Create seperate classes for different questions
         - [ ] Create different classes for different AWS services:
