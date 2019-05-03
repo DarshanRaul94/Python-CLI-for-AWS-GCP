@@ -1,6 +1,7 @@
 import boto3
 import botocore
 
+from ...utlities import colored
 
 s3 = boto3.client('s3')
 
@@ -9,7 +10,7 @@ def getbuckets(show):
     try:
         buckets=s3.list_buckets()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting bucket data: \n\n\n")
+                    colored.coloredtext("There was an error while getting bucket data: \n\n\n")
                     print(e)
     for i in buckets['Buckets']:
         bucket= i['Name']
