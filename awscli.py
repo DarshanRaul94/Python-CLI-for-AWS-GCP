@@ -161,7 +161,7 @@ def take_action(mainanswers):
             pprint(user_choices)
             if getconfirmation():
 
-                deleteuser(user_choices)
+                iamclass.deleteuser(user_choices)
             
             #pprint(bucket_choices) 
             #deletebucket(bucket_choices)
@@ -172,7 +172,7 @@ def take_action(mainanswers):
             pprint(group_choices)
             if getconfirmation():
 
-                deletegroup(group_choices)
+                iamclass.deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])
         
         if mainanswers['action'] == 'Add User to Group':
@@ -361,27 +361,6 @@ def take_action(mainanswers):
     
     
 
-def deleteuser(user_choices):
-    #print("deleting user")
-    progressbar("Deleting user")
-    username=user_choices['user'][0]
-    try:
-        iam.delete_user( UserName=str(username))
-        print("\n \n User " +username +" has been deleted \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting user: \n\n\n")
-                    print(e)
-
-def deletegroup(group_choices):
-    #print("deleting group")
-    progressbar("Deleting Group")
-    groupname=group_choices['group'][0]
-    try:
-        iam.delete_group( GroupName=str(groupname))
-        print("\n \n Group " +groupname +" has been deleted \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting group: \n\n\n")
-                    print(e)
 
 
 def deleteaccesskey(accesskey_choices):
