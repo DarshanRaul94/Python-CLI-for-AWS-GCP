@@ -1,3 +1,8 @@
+
+"""
+This module will be utilized for using the AWS S3 related tasks of the package
+"""
+
 import boto3
 import botocore
 

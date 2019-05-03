@@ -26,7 +26,7 @@ from termcolor import colored, cprint
 
 from packages.aws_services.S3 import s3 as s3class
 
-
+from packages.aws_services.IAM import iam as iamclass
 ### initialize service clients #############
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
@@ -65,72 +65,10 @@ def getconfirmation():
 
     return confirmation['continue']
 
- ##########################getters#########################   
- # s3    
-# def getbuckets(show):
-#     bucketlist=[]
-#     try:
-#         buckets=s3.list_buckets()
-#     except botocore.exceptions.ClientError as e:
-#                     coloredtext("There was an error while getting bucket data: \n\n\n")
-#                     print(e)
-#     for i in buckets['Buckets']:
-#         bucket= i['Name']
-#         if show:
-#             print("> " +bucket)
-#         bucketlist.append({'name':bucket})
-#     #print(bucketlist)
-#     return bucketlist
 
 
 # iam
-def getusers(show):
-    try:
-        users=iam.list_users()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting user data: \n\n\n")
-                    print(e)
-    userlist=[]
-    
-    for user in users['Users']:
-        name=user['UserName']
-        if show:
-            print("> "+name)
-        userlist.append({"name":name})
-    return userlist
 
-def getgroups(show):
-    try:
-        groups=iam.list_groups()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting group data: \n\n\n")
-                    print(e)
-    grouplist=[]
-        
-    for group in groups['Groups']:
-        name=group['GroupName']
-        if show:
-            print("> "+name)
-        grouplist.append({"name":name})
-
-    return grouplist
-
-def getaccesskeys(show):
-    try:
-        accesskeys=iam.list_access_keys()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting access key data: \n\n\n")
-                    print(e)
-    accesskeylist=[]
-        
-    for accesskey in accesskeys['AccessKeyMetadata']:
-        name=accesskey['UserName']
-        accesskeyid=accesskey['AccessKeyId']
-        if show:
-            print("> "+name)
-        accesskeylist.append({"name":accesskeyid})
-
-    return accesskeylist
 # ec2
 def getinstances(show):
     serverlist=[]
@@ -209,16 +147,16 @@ def bucket_list(bucket_choices):
     return bucketlist
 
 def user_list(bucket_choices):
-    userlist=getusers(False)
+    userlist=iamclass.getusers(False)
     return userlist
 
 def group_list(bucket_choices):
-    grouplist=getgroups(False)
+    grouplist=iamclass.getgroups(False)
     return grouplist
 
 
 def accesskey_list(accesskey_choices):
-    accesskeylist=getaccesskeys(False)
+    accesskeylist=iamclass.getaccesskeys(False)
     return accesskeylist
 
     
@@ -343,7 +281,7 @@ def take_action(mainanswers):
 
         if mainanswers['action'] == 'List Access Keys':
             
-            getaccesskeys(True)
+            iamclass.getaccesskeys(True)
             
             options.extend(['Continue','Exit'])   
 
@@ -659,9 +597,9 @@ def get_service_data(mainanswers):
 
     elif mainanswers['service'] == 'IAM':
         print("\n #############Users############ \n ")
-        getusers(True)
+        iamclass.getusers(True)
         print("\n #############Groups############ \n ")
-        getgroups(True)
+        iamclass.getgroups(True)
         options.extend(['Create User','Create Group','Add User to Group','Delete User','Delete Group',
         Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access Key',
         Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
