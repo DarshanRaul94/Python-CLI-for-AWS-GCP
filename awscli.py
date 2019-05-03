@@ -27,6 +27,8 @@ from termcolor import colored, cprint
 from packages.aws_services.S3 import s3 as s3class
 
 from packages.aws_services.IAM import iam as iamclass
+
+from packages.aws_services.EC2 import ec2 as ec2class
 ### initialize service clients #############
 s3 = boto3.client('s3')
 iam = boto3.client('iam')
@@ -70,74 +72,7 @@ def getconfirmation():
 # iam
 
 # ec2
-def getinstances(show):
-    serverlist=[]
-    count=0
-    try:
-        servers=ec2.describe_instances()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting ec2 instance data: \n\n\n")
-                    print(e)
-    for reservation in servers['Reservations']:
-        for inst in reservation['Instances']:
-            count+=1
-            name=inst['InstanceId']
-            state=inst['State']['Name']
-            serverid="server"+str(count)
-            if show:
-                print("Id: "+name+"      State: "+ state)
-            serverlist.append({ "name":name})
-    return serverlist
 
-def getsecuritygroups(show):
-    securitygrouplist=[]
-    count=0
-    try:
-        securitygroups=ec2.describe_security_groups()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting security group data: \n\n\n")
-                    print(e)
-    for securitygroup in securitygroups['SecurityGroups']:
-        name=securitygroup['GroupName']
-        
-        gid=securitygroup['GroupId']
-        description=securitygroup['Description']
-        if show:
-            print("name: "+name+"      Descripton: "+ description)
-        securitygrouplist.append({ "name":gid})
-    return securitygrouplist
-
-def getkeypairs(show):
-    keypairlist=[]
-    count=0
-    try:
-        keypairs=ec2.describe_key_pairs()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting keypair data: \n\n\n")
-                    print(e)
-    for keypair in keypairs['KeyPairs']:
-        name=keypair['KeyName']
-        
-        if show:
-            print("name: "+name)
-        keypairlist.append({ "name":name})
-    return keypairlist
-
-def getvpcs(show):
-    vpclist=[]
-    count=0
-    try:
-        vpcs=ec2.describe_vpcs()
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting vpc data: \n\n\n")
-                    print(e)
-    for vpc in vpcs['Vpcs']:
-        name=vpc['VpcId']
-        cidr=vpc['CidrBlock']
-        if show:
-            print("VPC Id:  "+name+"           CIDR: "+cidr)
-        vpclist.append({ "name":name})
-    return vpclist
 
 
 ##########################option loaders###########################
@@ -161,19 +96,19 @@ def accesskey_list(accesskey_choices):
 
     
 def instance_list(instance_choices):
-    instancelist=getinstances(False)
+    instancelist=ec2class.getinstances(False)
     return instancelist
 
 def securitygroup_list(securitygroup_choices):
-    securitygrouplist=getsecuritygroups(False)
+    securitygrouplist=ec2class.getsecuritygroups(False)
     return securitygrouplist
 
 def keypair_list(keypair_choices):
-    keypairlist=getkeypairs(False)
+    keypairlist=ec2class.getkeypairs(False)
     return keypairlist
 
 def vpc_list(vpc_choices):
-    vpclist=getvpcs(False)
+    vpclist=ec2class.getvpcs(False)
     return vpclist
 
 
@@ -370,7 +305,7 @@ def take_action(mainanswers):
                     print(e)
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'List Security Groups':
-            getsecuritygroups(True)
+            ec2class.getsecuritygroups(True)
             
             options.extend(['Create Security Groups','Delete Security Groups','Exit'])
         if mainanswers['action'] == 'Delete Security Groups':
@@ -395,7 +330,7 @@ def take_action(mainanswers):
             #key.save(str(path))
             options.extend(['Create more keypairs','Exit'])
         if mainanswers['action'] == 'List Keypairs':
-            getkeypairs(True)
+            ec2class.getkeypairs(True)
             
             options.extend(['Create Keypairs','Delete Keypairs','Exit'])
         if mainanswers['action'] == 'Delete Keypairs':
@@ -590,7 +525,7 @@ def get_service_data(mainanswers):
     
     elif mainanswers['service'] == 'EC2':
         print("\n #############Instances############ \n ")
-        getinstances(True)
+        ec2class.getinstances(True)
         options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
         Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypairs',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
@@ -607,7 +542,7 @@ def get_service_data(mainanswers):
              
     elif mainanswers['service'] == 'VPC':
         print("\n #############VPC's############ \n ")
-        getvpcs(True)
+        ec2class.getvpcs(True)
         
         options.extend(['Create VPC','Delete VPC','Go Back'])
     elif mainanswers['service'] == 'Exit':
