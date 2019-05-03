@@ -247,20 +247,20 @@ def take_action(mainanswers):
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices)
             if getconfirmation(): 
-                startinstance(instance_choices)
+                ec2class.startinstance(instance_choices)
             options.extend(['Start more servers','Exit'])
         if mainanswers['action'] == 'Stop Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices)
             if getconfirmation(): 
-                stopinstance(instance_choices)
+                ec2class.stopinstance(instance_choices)
             options.extend(['Stop more servers','Exit'])
         if mainanswers['action'] == 'Terminate Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices) 
             if getconfirmation():
 
-                terminateinstance(instance_choices)
+                ec2class.terminateinstance(instance_choices)
             options.extend(['Terminate more servers','Exit'])
 
 
@@ -293,7 +293,7 @@ def take_action(mainanswers):
             securitygroup_choices = prompt(securitygroup_choice, style=custom_style_2)
             pprint(securitygroup_choices) 
             if getconfirmation():
-                deletesecuritygroup(securitygroup_choices)
+                ec2class.deletesecuritygroup(securitygroup_choices)
             options.extend(['Delete more securitygroups','Exit'])
 
         #########################KEYPAIRS ################################
@@ -318,7 +318,7 @@ def take_action(mainanswers):
             keypair_choices = prompt(keypair_choice, style=custom_style_2)
             pprint(keypair_choices)
             if getconfirmation(): 
-                deletekeypair(keypair_choices)
+                ec2class.deletekeypair(keypair_choices)
             options.extend(['Delete more Keypairs','Exit'])
 
 
@@ -343,7 +343,7 @@ def take_action(mainanswers):
             vpc_choices = prompt(vpc_choice, style=custom_style_2)
             pprint(vpc_choices)
             if getconfirmation(): 
-                deletevpc(vpc_choices)
+                ec2class.deletevpc(vpc_choices)
             options.extend(['Delete more VPC\'s','Exit'])
 
     if mainanswers['action'] == 'Go Back':
@@ -363,84 +363,6 @@ def take_action(mainanswers):
 
 
 
-
-
-
-def startinstance(instance_choices):
-    #print("Starting Instance")
-    progressbar(" Starting Instance")
-    instancename=instance_choices['instance'][0]
-    try:
-        
-        ec2.start_instances( InstanceIds=[
-            str(instancename),
-        ])
-        print("\n \n Instance " +instancename +" has been started \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while starting instance: \n\n\n")
-                    print(e)    
-
-def stopinstance(instance_choices):
-    #print("Stopping Instance")
-    progressbar("Stopping Instances")
-    instancename=instance_choices['instance'][0]
-    try:  
-        ec2.stop_instances( InstanceIds=[
-            str(instancename),
-        ])
-        print("\n \n Instance " +instancename +" has been stopped \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while stopping instance: \n\n\n")
-                    print(e)
-
-def terminateinstance(instance_choices):
-    #print("Terminating Instance")
-    progressbar("Terminating Instance")
-    instancename=instance_choices['instance'][0]
-    try:
-        ec2.terminate_instances( InstanceIds=[
-            str(instancename),
-        ])
-        print("\n \n Instance " +instancename +" has been terminated \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while terminating instance: \n\n\n")
-                    print(e) 
-
-
-def deletekeypair(keypair_choices):
-    #print("deleting keypair")
-    progressbar("Deleting Keypair")
-    keypairname=keypair_choices['keypair'][0]
-    try:
-        ec2.delete_key_pair(KeyName=str(keypairname))
-        print("\n \n Keypair " +keypairname +" has been deleted \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting keypair: \n\n\n")
-                    print(e)    
-
-
-def deletevpc(vpc_choices):
-    #print("deleting vpc")
-    progressbar("Deleting VPC")
-    vpcname=vpc_choices['vpc'][0]
-    try:
-        ec2.delete_vpc(VpcId=str(vpcname))
-        print("\n \n vpc " +vpcname +" has been deleted \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting vpc: \n\n\n")
-                    print(e)    
-
-def deletesecuritygroup(securitygroup_choices):
-    #print("deleting securitygroup")
-    progressbar("Deleting Security Group")
-    securitygroupname=securitygroup_choices['securitygroup'][0]
-    try:
-
-        print("\n \n securitygroup " +securitygroupname +" has been deleted \n \n")
-        ec2.delete_security_group(GroupId=str(securitygroupname))
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting security group: \n\n\n")
-                    print(e)    
 
 
 
