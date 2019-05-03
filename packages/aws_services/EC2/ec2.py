@@ -12,7 +12,7 @@ def getinstances(show):
     try:
         servers=ec2.describe_instances()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting ec2 instance data: \n\n\n")
+                    colored.coloredtext("There was an error while getting ec2 instance data: \n\n\n")
                     print(e)
     for reservation in servers['Reservations']:
         for inst in reservation['Instances']:
@@ -31,7 +31,7 @@ def getsecuritygroups(show):
     try:
         securitygroups=ec2.describe_security_groups()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting security group data: \n\n\n")
+                    colored.coloredtext("There was an error while getting security group data: \n\n\n")
                     print(e)
     for securitygroup in securitygroups['SecurityGroups']:
         name=securitygroup['GroupName']
@@ -49,7 +49,7 @@ def getkeypairs(show):
     try:
         keypairs=ec2.describe_key_pairs()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting keypair data: \n\n\n")
+                    colored.coloredtext("There was an error while getting keypair data: \n\n\n")
                     print(e)
     for keypair in keypairs['KeyPairs']:
         name=keypair['KeyName']
@@ -65,7 +65,7 @@ def getvpcs(show):
     try:
         vpcs=ec2.describe_vpcs()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting vpc data: \n\n\n")
+                    colored.coloredtext("There was an error while getting vpc data: \n\n\n")
                     print(e)
     for vpc in vpcs['Vpcs']:
         name=vpc['VpcId']

@@ -12,7 +12,7 @@ def getusers(show):
     try:
         users=iam.list_users()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting user data: \n\n\n")
+                    colored.coloredtext("There was an error while getting user data: \n\n\n")
                     print(e)
     userlist=[]
     
@@ -27,7 +27,7 @@ def getgroups(show):
     try:
         groups=iam.list_groups()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting group data: \n\n\n")
+                    colored.coloredtext("There was an error while getting group data: \n\n\n")
                     print(e)
     grouplist=[]
         
@@ -43,7 +43,7 @@ def getaccesskeys(show):
     try:
         accesskeys=iam.list_access_keys()
     except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while getting access key data: \n\n\n")
+                    colored.coloredtext("There was an error while getting access key data: \n\n\n")
                     print(e)
     accesskeylist=[]
         
