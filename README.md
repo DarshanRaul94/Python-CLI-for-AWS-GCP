@@ -7,6 +7,7 @@
 
 
 # TODO:
+- [ ] Create another branch for testing packaging features
 - [x] Add excpetion handling
         - [ ] create a base class for exceptions defined by this cli
         - [ ] Add finally clauses wherever needed
