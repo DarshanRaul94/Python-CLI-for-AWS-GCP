@@ -7,9 +7,10 @@
 
 
 # TODO:
-- [ ] Create another branch for testing packaging features
+- [x] Create another branch for testing packaging features
 - [ ] Find alternatives for relative imports beyond top level package
 - [ ] Use rebase to limit the commits that go to remote
+- [ ] Add regions choices 
 - [x] Add excpetion handling
         - [ ] create a base class for exceptions defined by this cli
         - [ ] Add finally clauses wherever needed
@@ -20,16 +21,15 @@
                 - [ ] get functions
                 - [ ] Choice arrays
                 - [ ] Action functions 
-        - [ ] Create different classes for different AWS services:
-                - [ ] S3
-                - [ ] IAM
-                - [ ] EC2
+        - [x] Create different classes for different AWS services:
+                - [x] S3
+                - [x] IAM
+                - [x] EC2
 - [ ] Add docstring to all functions
 - [ ] Use Spinx or Read the docs to create documentation for the package
 - [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
 - [x] Have a look at other CLI offerings and look how you can do something different
 - [x] Add confirmation before taking actions
-- [ ] Add regions choices 
 - [ ] Replace the if statements with switch ## using dictionary or lambda
 - [x] Add loop to go back to main menu if back is pressed
         * [ ] Create fucntion which creates options maybe and then loop around
@@ -37,7 +37,7 @@
 - [x] Create Group function 
 - [x] Delete User function
 - [x] Delete Group function
-- [ ] Try to package the choice arrays and then import in main file [Can skip if not feasible today]
+- [ ] Try to package the choice arrays and then import in main file 
 - [x] Comment the code till now (After making packages so u can comment import statements)
 - [x] Start instance
 - [x] Stop instance 
