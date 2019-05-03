@@ -128,7 +128,7 @@ def take_action(mainanswers):
             pprint(bucket_choices)
             if getconfirmation():
                 
-                deletebucket(bucket_choices)
+                s3class.deletebucket(bucket_choices)
                 
             options.extend(['Delete more buckets','Exit'])
 
@@ -356,18 +356,6 @@ def take_action(mainanswers):
 
 
 ################################DELETE FUNCTIONS   ##############################
-
-def deletebucket(bucket_choices):
-    #print("deleting bucket")
-    progressbar("Deleting Bucket")
-    
-    bucketname=bucket_choices['bucket'][0]
-    try:
-        s3.delete_bucket(  Bucket=str(bucketname))
-        print("\n \n Bucket " +bucketname +" has been deleted \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting Bucket: \n\n\n")
-                    print(e)       
 
 
     

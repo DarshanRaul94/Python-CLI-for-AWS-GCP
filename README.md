@@ -12,19 +12,19 @@
 - [ ] Use rebase to limit the commits that go to remote
 - [ ] Add regions choices 
 - [x] Add excpetion handling
-        - [ ] create a base class for exceptions defined by this cli
-        - [ ] Add finally clauses wherever needed
-        - [x] Make exceptions appear in red
+    - [ ] create a base class for exceptions defined by this cli
+    - [ ] Add finally clauses wherever needed
+    - [x] Make exceptions appear in red
 - [ ] Use a class/package based approach
-        - [ ] Create seperate classes for different questions
-        - [ ] Create modules for:
-                - [ ] get functions
-                - [ ] Choice arrays
-                - [ ] Action functions 
-        - [x] Create different classes for different AWS services:
-                - [x] S3
-                - [x] IAM
-                - [x] EC2
+    - [ ] Create seperate classes for different questions
+    - [ ] Create modules for:
+            - [ ] get functions
+            - [ ] Choice arrays
+            - [ ] Action functions 
+    - [x] Create different classes for different AWS services:
+            - [x] S3
+            - [x] IAM
+            - [x] EC2
 - [ ] Add docstring to all functions
 - [ ] Use Spinx or Read the docs to create documentation for the package
 - [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
@@ -32,7 +32,7 @@
 - [x] Add confirmation before taking actions
 - [ ] Replace the if statements with switch ## using dictionary or lambda
 - [x] Add loop to go back to main menu if back is pressed
-        * [ ] Create fucntion which creates options maybe and then loop around
+    - [ ] Create fucntion which creates options maybe and then loop around
 - [ ] Integrate pytest to check if code is working
 - [x] Create Group function 
 - [x] Delete User function
