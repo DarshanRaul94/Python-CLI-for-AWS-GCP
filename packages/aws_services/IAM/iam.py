@@ -89,3 +89,16 @@ def deletegroup(group_choices):
     except botocore.exceptions.ClientError as e:
                     coloredtext("There was an error while deleting group: \n\n\n")
                     print(e)
+def deleteaccesskey(accesskey_choices):
+    #print("deleting group")
+    progressbar("Deleting Access Key")
+    accesskeyname=accesskey_choices['accesskey'][0]
+    try:
+    
+        iam.delete_access_key(
+        AccessKeyId=str(accesskeyname)
+        )
+        print("\n \n Accesskey " +accesskeyname +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting access key: \n\n\n")
+                    print(e)

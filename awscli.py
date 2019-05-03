@@ -222,7 +222,7 @@ def take_action(mainanswers):
             pprint(accesskey_choices)
             if getconfirmation():
 
-                deleteaccesskey(accesskey_choices)
+                iamclass.deleteaccesskey(accesskey_choices)
             options.extend(['Delete more accesskeys','Exit'])
 
     if mainanswers['service'] == 'EC2':
@@ -363,19 +363,7 @@ def take_action(mainanswers):
 
 
 
-def deleteaccesskey(accesskey_choices):
-    #print("deleting group")
-    progressbar("Deleting Access Key")
-    accesskeyname=accesskey_choices['accesskey'][0]
-    try:
-    
-        iam.delete_access_key(
-        AccessKeyId=str(accesskeyname)
-        )
-        print("\n \n Accesskey " +accesskeyname +" has been deleted \n \n")
-    except botocore.exceptions.ClientError as e:
-                    coloredtext("There was an error while deleting access key: \n\n\n")
-                    print(e)
+
 
 
 def startinstance(instance_choices):
