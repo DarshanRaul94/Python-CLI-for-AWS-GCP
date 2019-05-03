@@ -21,9 +21,9 @@
                 - [ ] Choice arrays
                 - [ ] Action functions 
         - [ ] Create different classes for different AWS services:
-                - [ ] S3
-                - [ ] IAM
-                - [ ] EC2
+                - [x] S3
+                - [x] IAM
+                - [x] EC2
 - [ ] Add docstring to all functions
 - [ ] Use Spinx or Read the docs to create documentation for the package
 - [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
