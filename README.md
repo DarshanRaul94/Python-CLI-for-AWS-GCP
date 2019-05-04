@@ -11,7 +11,7 @@
 - [ ] Find alternatives for relative imports beyond top level package
 - [ ] Use rebase to limit the commits that go to remote
 - [ ] Add regions choices 
-- [ ] Add requirements.txt for python modules
+- [x] Add requirements.txt for python modules
 - [x] Add excpetion handling
     - [ ] create a base class for exceptions defined by this cli
     - [ ] Add finally clauses wherever needed
@@ -35,6 +35,9 @@
 - [x] Add loop to go back to main menu if back is pressed
     - [ ] Create fucntion which creates options maybe and then loop around
 - [ ] Integrate pytest to check if code is working
+    - [ ] Try on single aws s3 service
+    - [ ] Replicate on other services
+    - [ ] Use parametrize to create multiple scenarios
 - [x] Create Group function 
 - [x] Delete User function
 - [x] Delete Group function
