@@ -7,11 +7,19 @@ def test_getbuckets():
     buckets=s3.list_buckets()
     for i in buckets['Buckets']:
         bucket= i['Name']
-        
         bucketlist.append(bucket)
     #print(bucketlist)
     assert bucketlist!=[] 
     
 
+def test_getbuckets():
+    bucketlist=[]
+    buckets=s3.list_buckets()
+    for i in buckets['Buckets']:
+        bucket= i['Name']
+        
+        bucketlist.append(bucket)
+    #print(bucketlist)
+    assert bucketlist!=[] 
 
 
