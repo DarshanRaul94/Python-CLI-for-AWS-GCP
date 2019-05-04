@@ -11,6 +11,7 @@
 - [ ] Find alternatives for relative imports beyond top level package
 - [ ] Use rebase to limit the commits that go to remote
 - [ ] Add regions choices 
+- [ ] Add requirements.txt for python modules
 - [x] Add excpetion handling
     - [ ] create a base class for exceptions defined by this cli
     - [ ] Add finally clauses wherever needed
