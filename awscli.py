@@ -50,10 +50,6 @@ def getconfirmation():
 
 
 
-# iam
-
-# ec2
-
 
 
 ##########################option loaders###########################
@@ -106,6 +102,9 @@ def take_action(mainanswers):
         ######################## S3 #########################
         if mainanswers['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
+            region_choices = prompt(region_choice, style=custom_style_2)
+            pprint(region_choices)
+            region=region_choices['region'][0]
             #location=input("In which region do you want to create the bucket")
             #confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
 
@@ -114,7 +113,7 @@ def take_action(mainanswers):
 
                 progressbar("Creating Bucket")
                 try:
-                    s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': 'ap-south-1'})
+                    s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': str(region)})
                     print("\n \n Bucket " +bucket_name +" has been created \n \n")
                 except botocore.exceptions.ClientError as e:
                     coloredtext("There was an error while creating Bucket: \n\n\n")
@@ -355,16 +354,6 @@ def take_action(mainanswers):
     return options
 
 
-################################DELETE FUNCTIONS   ##############################
-
-
-    
-    
-
-
-
-
-
 
 ################# MAIN QUESTIONS ###############################
 
@@ -463,6 +452,18 @@ confirmquestions = [
     
 ]
 
+region_choice = [
+{
+        'type': 'list',
+        'name': 'region',
+        'message': 'Select region',
+        'choices': [
+            'ap-south-1',
+            'us-east-1'
+
+        ]
+    },
+]
 ###########################CHECKBOXES############################
 
 bucket_choice=[{
@@ -552,17 +553,22 @@ securitygroup_choice=[{
 ########################## START HERE###################
 
 
+def main():
+    # print (f.renderText('AWS CLI'))
+    # print('A small little CLI to interact with AWS Services')
+    # print('Made with <3 by Darshan Raul \n')   
 
+    mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
+
+    pprint(mainanswers) # print questions
+
+
+if __name__ == '__main__':
+    main()
 
     
     
-# print (f.renderText('AWS CLI'))
-# print('A small little CLI to interact with AWS Services')
-# print('Made with <3 by Darshan Raul \n')   
 
-mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
-
-pprint(mainanswers) # print questions
   
 
 

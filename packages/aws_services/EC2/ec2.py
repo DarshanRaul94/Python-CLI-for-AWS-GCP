@@ -1,3 +1,10 @@
+
+"""
+This module will be utilized for using the AWS EC2 related tasks of the package
+"""
+
+
+
 import boto3
 import botocore
 
