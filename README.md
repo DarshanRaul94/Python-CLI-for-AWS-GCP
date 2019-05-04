@@ -35,7 +35,7 @@
 - [x] Add loop to go back to main menu if back is pressed
     - [ ] Create fucntion which creates options maybe and then loop around
 - [ ] Integrate pytest to check if code is working
-    - [ ] Try on single aws s3 service
+    - [x] Try on single aws s3 service
     - [ ] Replicate on other services
     - [ ] Use parametrize to create multiple scenarios
 - [x] Create Group function 
