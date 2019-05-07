@@ -19,7 +19,7 @@ import botocore
 ############ progress bar ##########################
 from time import sleep
 import sys
-
+import os
 
 
 
@@ -88,7 +88,9 @@ def vpc_list(vpc_choices):
     vpclist=ec2class.getvpcs(False)
     return vpclist
 
-
+def region_list(region_choices):
+    regionlist=['ap-south-1','us-east-1']
+    return regionlist
 
 ########  SUB QUESTIONS ###############################
 
@@ -104,10 +106,10 @@ def take_action(mainanswers):
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             region_choices = prompt(region_choice, style=custom_style_2)
             pprint(region_choices)
-            region=region_choices['region'][0]
+            region=region_choices['region']
             #location=input("In which region do you want to create the bucket")
             #confirmation = prompt(confirmquestions, style=custom_style_2) # initialize questions
-
+            print(region)
             #pprint(confirmation)
             if getconfirmation():
 
@@ -422,7 +424,6 @@ mainquestions = [
             'IAM',
             'Cloudwatch',
             'Exit'
-
         ]
     },
     {
@@ -457,11 +458,7 @@ region_choice = [
         'type': 'list',
         'name': 'region',
         'message': 'Select region',
-        'choices': [
-            'ap-south-1',
-            'us-east-1'
-
-        ]
+        'choices': region_list
     },
 ]
 ###########################CHECKBOXES############################
@@ -554,6 +551,7 @@ securitygroup_choice=[{
 
 
 def main():
+    os.system('cls')
     # print (f.renderText('AWS CLI'))
     # print('A small little CLI to interact with AWS Services')
     # print('Made with <3 by Darshan Raul \n')   
