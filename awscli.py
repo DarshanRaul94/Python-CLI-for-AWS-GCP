@@ -529,7 +529,7 @@ def gotoservice(service):
         'name': 'action',
         'message': 'Which AWS service you want to use ?',
         'choices': ['Run Instances','Start Instances','Stop Instances','Terminate Instances',
-        Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypairs',
+        Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypair',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'
             
         ]
@@ -610,10 +610,7 @@ def s3actions(action):
                 coloredtext("There was an error while creating Bucket: \n\n\n")
                 print(e)
 
-        if getconfirmation():
-            gotoservice('S3')
-        else:
-            sys.exit()
+        confirm_or_exit('S3')
 
         
     if action == 'Delete Bucket':
@@ -623,16 +620,113 @@ def s3actions(action):
         if getconfirmation():
                 
             s3class.deletebucket(bucket_choices)
-            
-        if getconfirmation():
-            gotoservice('S3')
-        else:
-            sys.exit()        
+
+        confirm_or_exit('S3')        
         
     
 
 def ec2actions(action):
-    print(action)
+
+    #####################INSTANCES################
+    if action == 'Run Instances':
+                 
+        os=input("What is the OS? ")
+        count=input("How many servers you want to run? ")
+        instance_type=input("Which Instance type you want to run")
+        keyname=input("Which key pair you want to use")
+        if getconfirmation():
+            try:
+                ec2.run_instances( ImageId=str(os),
+                InstanceType=str(instance_type),MaxCount=int(count),
+                MinCount=int(count),KeyName=str(keyname))
+                print("Running instances now")
+            except botocore.exceptions.ClientError as e:
+                coloredtext("There was an error while run instance: \n\n\n")
+                print(e)
+        confirm_or_exit('EC2')  
+
+    if action == 'Start Instances':
+        instance_choices = prompt(instance_choice, style=custom_style_2)
+        pprint(instance_choices)
+        if getconfirmation(): 
+            ec2class.startinstance(instance_choices)
+        confirm_or_exit('EC2')
+
+    if action == 'Stop Instances':
+        instance_choices = prompt(instance_choice, style=custom_style_2)
+        pprint(instance_choices)
+        if getconfirmation(): 
+            ec2class.stopinstance(instance_choices)
+        confirm_or_exit('EC2')
+
+    if action == 'Terminate Instances':
+        instance_choices = prompt(instance_choice, style=custom_style_2)
+        pprint(instance_choices) 
+        if getconfirmation():
+
+            ec2class.terminateinstance(instance_choices)
+        confirm_or_exit('EC2')
+
+
+    #########################SECURITY GROUP ################################
+    if action == 'Create Security Groups':
+            
+        groupname=input("What is the name you want to give to the group? ")
+        #vpcid=input("Select the vpc for the Security group") ##currenty manually entering will add vpc selection later
+        description=input("Give a short description for the group: ")
+        vpc_choices = prompt(vpc_choice, style=custom_style_2)
+        pprint(vpc_choices)
+        vpcid=vpc_choices['vpc'][0]
+        if getconfirmation():
+            try:
+                ec2.create_security_group(
+                Description=str(description),
+                GroupName=str(groupname),
+                VpcId=str(vpcid)
+                
+                )
+            except botocore.exceptions.ClientError as e:
+                coloredtext("There was an error while creating security group: \n\n\n")
+                print(e)
+        confirm_or_exit('EC2')  
+
+    if action == 'List Security Groups':
+        ec2class.getsecuritygroups(True)
+            
+        confirm_or_exit('EC2')
+    
+    if action == 'Delete Security Groups':
+        securitygroup_choices = prompt(securitygroup_choice, style=custom_style_2)
+        pprint(securitygroup_choices) 
+        if getconfirmation():
+            ec2class.deletesecuritygroup(securitygroup_choices)
+        confirm_or_exit('EC2')
+
+    #########################KEYPAIRS ################################
+    if action == 'Create Keypair':
+        keyname=input("What is the name of the keypair you want to create? ")
+        #path=input("Whre do you want to save the keypair? ")
+        if getconfirmation():
+            try:
+                key=ec2.create_key_pair(
+                KeyName=str(keyname)
+                )
+            except botocore.exceptions.ClientError as e:
+                coloredtext("There was an error while creating keypair: \n\n\n")
+                print(e)
+        confirm_or_exit('EC2')
+
+    if action == 'List Keypairs':
+        ec2class.getkeypairs(True)
+        confirm_or_exit('EC2')    
+        #options.extend(['Create Keypairs','Delete Keypairs','Exit'])
+    if action == 'Delete Keypair':
+        keypair_choices = prompt(keypair_choice, style=custom_style_2)
+        pprint(keypair_choices)
+        if getconfirmation(): 
+            ec2class.deletekeypair(keypair_choices)
+        confirm_or_exit('EC2')
+    
 
 def iamactions(action):
     print(action)
@@ -642,7 +736,11 @@ def vpcactions(action):
     
 
 
-
+def confirm_or_exit(service):
+    if getconfirmation():
+        gotoservice(str(service))
+    else:
+        sys.exit()
 
 
 
