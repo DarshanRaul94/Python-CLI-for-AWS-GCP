@@ -711,6 +711,7 @@ def ec2actions(action):
                 key=ec2.create_key_pair(
                 KeyName=str(keyname)
                 )
+                print("\n \n Keypair " +keyname +" has been created \n \n")
             except botocore.exceptions.ClientError as e:
                 coloredtext("There was an error while creating keypair: \n\n\n")
                 print(e)
