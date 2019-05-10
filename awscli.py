@@ -357,58 +357,7 @@ def take_action(inputs):
 
 
 
-################# MAIN QUESTIONS ###############################
 
-
-
-def get_service_data(inputs):
-    
-    options = []
-    if inputs['service'] == 'S3':
-        text = colored("\n #############Buckets############ ", 'green', attrs=['reverse', 'blink'])
-        print(text +'\n')
-        #print()
-        s3class.getbuckets(True)
-        options.extend(['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'])
-        
-
-    
-    elif inputs['service'] == 'EC2':
-        print("\n #############Instances############ \n ")
-        ec2class.getinstances(True)
-        options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
-        Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypairs',
-        Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
-
-    elif inputs['service'] == 'IAM':
-        print("\n #############Users############ \n ")
-        iamclass.getusers(True)
-        print("\n #############Groups############ \n ")
-        iamclass.getgroups(True)
-        options.extend(['Create User','Create Group','Add User to Group','Delete User','Delete Group',
-        Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access Key',
-        Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
-        Separator('---------Policy---------'),'List Policies','Create Policies','Delete Policies','Go Back'])
-             
-    elif inputs['service'] == 'VPC':
-        print("\n #############VPC's############ \n ")
-        ec2class.getvpcs(True)
-        
-        options.extend(['Create VPC','Delete VPC','Go Back'])
-    elif inputs['service'] == 'Exit':
-        sys.exit()
-        
-        #options.extend(['Create VPC','Delete VPC','Go Back'])
-    
-
-    return options
-
-
-
-######################## STATIC MAIN OPTIONS #################
-
-
-########################## CONFIRMATION QUESTIONS #############
 confirmquestions = [
     {
         'type': 'confirm',
@@ -536,7 +485,9 @@ def getservice():
     }
   
     ]       
-    answers=prompt(mainquestions, style=custom_style_2) # initialize questions
+
+    answers=prompt(mainquestions, style=custom_style_2) 
+
     if answers['service']=='Exit':
         sys.exit()
     return answers['service']
@@ -544,6 +495,7 @@ def getservice():
 
 
 def gotoservice(service):
+
     if service=='S3':
         text = colored("\n #############Buckets############ ", 'green', attrs=['reverse', 'blink'])
         print(text +'\n')
@@ -640,7 +592,44 @@ def gotoservice(service):
 
 
 def s3actions(action):
-    print(action)
+
+    if action == 'Create Bucket':
+
+        bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
+        region_choices = prompt(region_choice, style=custom_style_2)
+        pprint(region_choices)
+        region=region_choices['region']
+            
+        if getconfirmation():
+
+            progressbar("Creating Bucket")
+            try:
+                s3.create_bucket(Bucket=str(bucket_name), CreateBucketConfiguration={'LocationConstraint': str(region)})
+                print("\n \n Bucket " +bucket_name +" has been created \n \n")
+            except botocore.exceptions.ClientError as e:
+                coloredtext("There was an error while creating Bucket: \n\n\n")
+                print(e)
+
+        if getconfirmation():
+            gotoservice('S3')
+        else:
+            sys.exit()
+
+        
+    if action == 'Delete Bucket':
+            
+        bucket_choices = prompt(bucket_choice, style=custom_style_2)
+        pprint(bucket_choices)
+        if getconfirmation():
+                
+            s3class.deletebucket(bucket_choices)
+            
+        if getconfirmation():
+            gotoservice('S3')
+        else:
+            sys.exit()        
+        
+    
 
 def ec2actions(action):
     print(action)
