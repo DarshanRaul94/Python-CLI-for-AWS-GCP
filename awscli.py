@@ -537,6 +537,8 @@ def getservice():
   
     ]       
     answers=prompt(mainquestions, style=custom_style_2) # initialize questions
+    if answers['service']=='Exit':
+        sys.exit()
     return answers['service']
 
 
@@ -567,24 +569,94 @@ def gotoservice(service):
     if service=='EC2':
         text = colored("\n #############Instances############ ", 'green', attrs=['reverse', 'blink'])
         print(text +'\n')
-        s3class.getbuckets(True)
+        ec2class.getinstances(True)
         #
-        s3questions = [
+        ec2questions = [
         {
         'type': 'list',
         'name': 'action',
         'message': 'Which AWS service you want to use ?',
-        'choices': ['Create instnace'
+        'choices': ['Run Instances','Start Instances','Stop Instances','Terminate Instances',
+        Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypairs',
+        Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'
             
         ]
         }
   
         ]
+        ec2prompt=prompt(ec2questions, style=custom_style_2)
+        ec2action=ec2prompt['action']
+        if ec2action=='Go Back':
+            main()
+        else:
+            ec2actions(ec2action)
         
+    if service=='IAM':
+        print("\n #############Users############ \n ")
+        iamclass.getusers(True)
+        print("\n #############Groups############ \n ")
+        iamclass.getgroups(True)
+        iamquestions = [
+        {
+        'type': 'list',
+        'name': 'action',
+        'message': 'Which AWS service you want to use ?',
+        'choices': ['Create User','Create Group','Add User to Group','Delete User','Delete Group',
+        Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access Key',
+        Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
+        Separator('---------Policy---------'),'List Policies','Create Policies','Delete Policies','Go Back'
+        ]
+        }
+  
+        ]
+        iamprompt=prompt(iamquestions, style=custom_style_2)
+        iamaction=iamprompt['action']
+        if iamaction=='Go Back':
+            main()
+        else:
+            iamactions(iamaction)
+
+    if service=='VPC':
+        print("\n #############VPC's############ \n ")
+        ec2class.getvpcs(True)
+        vpcquestions = [
+        {
+        'type': 'list',
+        'name': 'action',
+        'message': 'Which AWS service you want to use ?',
+        'choices': ['Create VPC','Delete VPC','Go Back'
+        ]
+        }
+  
+        ]
+        vpcprompt=prompt(vpcquestions, style=custom_style_2)
+        vpcaction=vpcprompt['action']
+        if vpcaction=='Go Back':
+            main()
+        else:
+            vpcactions(vpcaction)   
+
+
+
 
 def s3actions(action):
-
     print(action)
+
+def ec2actions(action):
+    print(action)
+
+def iamactions(action):
+    print(action)
+
+def vpcactions(action):
+    print(action)
+    
+
+
+
+
+
+
 ########################## START HERE###################
 
 
