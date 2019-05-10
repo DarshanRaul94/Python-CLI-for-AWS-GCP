@@ -8,7 +8,7 @@
 
 # TODO:
 - [x] Create another branch for testing packaging features
-- [ ] Find alternatives for relative imports beyond top level package
+- [x] Find alternatives for relative imports beyond top level package
 - [ ] Use rebase to limit the commits that go to remote
 - [x] Add regions choices 
 - [x] Add requirements.txt for python modules
@@ -62,7 +62,7 @@
 - [x] Add test's using pytest by creating small scenarios 
 - [x] Add exit to main menu
 - [x] Add keyboard shortcuts for commiting in vscode
-- [ ] FINAL : Package the whole thing and post on pypi
+- [x] FINAL : Package the whole thing and post on pypi
 
 # References/Inspiration:
 

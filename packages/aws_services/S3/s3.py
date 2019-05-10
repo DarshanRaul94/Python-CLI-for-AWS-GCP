@@ -6,8 +6,8 @@ This module will be utilized for using the AWS S3 related tasks of the package
 import boto3
 import botocore
 
-from ...utlities.colored import coloredtext
-from ...utlities.progressbar import progressbar
+from packages.utlities.colored import coloredtext
+from packages.utlities.progressbar import progressbar
 
 
 

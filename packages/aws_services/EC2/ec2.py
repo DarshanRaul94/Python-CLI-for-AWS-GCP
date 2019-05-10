@@ -8,10 +8,8 @@ This module will be utilized for using the AWS EC2 related tasks of the package
 import boto3
 import botocore
 
-from ...utlities import colored
-
-from ...utlities.colored import coloredtext
-from ...utlities.progressbar import progressbar
+from packages.utlities.colored import coloredtext
+from packages.utlities.progressbar import progressbar
 
 
 ec2 = boto3.client('ec2')
