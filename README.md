@@ -10,22 +10,16 @@
 - [x] Create another branch for testing packaging features
 - [ ] Find alternatives for relative imports beyond top level package
 - [ ] Use rebase to limit the commits that go to remote
-- [ ] Add regions choices 
+- [x] Add regions choices 
 - [x] Add requirements.txt for python modules
 - [x] Add excpetion handling
     - [ ] create a base class for exceptions defined by this cli
     - [ ] Add finally clauses wherever needed
     - [x] Make exceptions appear in red
-- [ ] Use a class/package based approach
-    - [ ] Create seperate classes for different questions
-    - [ ] Create modules for:
-            - [ ] get functions
-            - [ ] Choice arrays
-            - [ ] Action functions 
-    - [x] Create different classes for different AWS services:
-            - [x] S3
-            - [x] IAM
-            - [x] EC2
+- [x] Create different classes for different AWS services:
+    - [x] S3
+    - [x] IAM
+    - [x] EC2        
 - [ ] Add docstring to all functions
 - [ ] Use Spinx or Read the docs to create documentation for the package
 - [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
@@ -66,7 +60,7 @@
     - [x] list access keys
     - [ ] list roles
 	- [ ] Delete roles
-- [ ] Add test's using pytest by creating small scenarios 
+- [x] Add test's using pytest by creating small scenarios 
 - [x] Add exit to main menu
 - [x] Add keyboard shortcuts for commiting in vscode
 - [ ] FINAL : Package the whole thing and post on pypi
@@ -74,3 +68,8 @@
 # References/Inspiration:
 
 https://github.com/donnemartin/awesome-aws#cli
+
+
+# BUGFIXES:
+
+- [ ] create bucket locationconstraint error

@@ -97,12 +97,12 @@ def region_list(region_choices):
 
 
 
-def take_action(mainanswers):
+def take_action(inputs):
     options=[]
     
-    if mainanswers['service'] == 'S3':
+    if inputs['service'] == 'S3':
         ######################## S3 #########################
-        if mainanswers['action'] == 'Create Bucket':
+        if inputs['action'] == 'Create Bucket':
             bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
             region_choices = prompt(region_choice, style=custom_style_2)
             pprint(region_choices)
@@ -123,7 +123,7 @@ def take_action(mainanswers):
 
                 
             options.extend(['Create more buckets','Exit'])
-        if mainanswers['action'] == 'Delete Bucket':
+        if inputs['action'] == 'Delete Bucket':
             
             bucket_choices = prompt(bucket_choice, style=custom_style_2)
             pprint(bucket_choices)
@@ -134,9 +134,9 @@ def take_action(mainanswers):
             options.extend(['Delete more buckets','Exit'])
 
 
-    if mainanswers['service'] == 'IAM':
+    if inputs['service'] == 'IAM':
         ######################## IAM #######################
-        if mainanswers['action'] == 'Create User':
+        if inputs['action'] == 'Create User':
             username=input("What is the name of the user you want to create: ")
             if getconfirmation():
                 try:
@@ -146,7 +146,7 @@ def take_action(mainanswers):
                     coloredtext("There was an error while creating user: \n\n\n")
                     print(e)
             options.extend(['Create More users','Exit'])
-        if mainanswers['action'] == 'Create Group':
+        if inputs['action'] == 'Create Group':
             groupname=input("What is the name of the group you want to create: ")
             if getconfirmation():
                 try:
@@ -156,7 +156,7 @@ def take_action(mainanswers):
                     coloredtext("There was an error while creating group: \n\n\n")
                     print(e)
             options.extend(['Create More Groups','Exit']) 
-        if mainanswers['action'] == 'Delete User':
+        if inputs['action'] == 'Delete User':
             
             user_choices = prompt(user_choice, style=custom_style_2)
             pprint(user_choices)
@@ -167,7 +167,7 @@ def take_action(mainanswers):
             #pprint(bucket_choices) 
             #deletebucket(bucket_choices)
             options.extend(['Delete more users','Exit'])
-        if mainanswers['action'] == 'Delete Group':
+        if inputs['action'] == 'Delete Group':
             print("Make sure that the Group is empty before you delete it")
             group_choices = prompt(group_choice, style=custom_style_2)
             pprint(group_choices)
@@ -176,7 +176,7 @@ def take_action(mainanswers):
                 iamclass.deletegroup(group_choices)
             options.extend(['Delete more groups','Exit'])
         
-        if mainanswers['action'] == 'Add User to Group':
+        if inputs['action'] == 'Add User to Group':
             print("Select the user you want to add")
             user_choices = prompt(user_choice, style=custom_style_2)
             pprint(user_choices)
@@ -196,13 +196,13 @@ def take_action(mainanswers):
             
             options.extend(['Continue','Exit'])  
 
-        if mainanswers['action'] == 'List Access Keys':
+        if inputs['action'] == 'List Access Keys':
             
             iamclass.getaccesskeys(True)
             
             options.extend(['Continue','Exit'])   
 
-        if mainanswers['action'] == 'Create Access Key':
+        if inputs['action'] == 'Create Access Key':
             print("Select the user you want to create accesskey for")
             user_choices = prompt(user_choice, style=custom_style_2)
             pprint(user_choices)
@@ -217,7 +217,7 @@ def take_action(mainanswers):
                     print(e)
             options.extend(['Create More accesskeys','Exit'])
 
-        if mainanswers['action'] == 'Delete Access Key':
+        if inputs['action'] == 'Delete Access Key':
             
             accesskey_choices = prompt(accesskey_choice, style=custom_style_2)
             pprint(accesskey_choices)
@@ -226,10 +226,10 @@ def take_action(mainanswers):
                 iamclass.deleteaccesskey(accesskey_choices)
             options.extend(['Delete more accesskeys','Exit'])
 
-    if mainanswers['service'] == 'EC2':
+    if inputs['service'] == 'EC2':
 
         ############################INSTANCE ########################
-        if mainanswers['action'] == 'Run Instances': ######### Will need to add more features here like ami id according to region
+        if inputs['action'] == 'Run Instances': ######### Will need to add more features here like ami id according to region
             os=input("What is the OS? ")
             count=input("How many servers you want to run? ")
             instance_type=input("Which Instance type you want to run")
@@ -244,19 +244,19 @@ def take_action(mainanswers):
                     coloredtext("There was an error while run instance: \n\n\n")
                     print(e)
             options.extend(['Run more servers','Exit'])
-        if mainanswers['action'] == 'Start Instances':
+        if inputs['action'] == 'Start Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices)
             if getconfirmation(): 
                 ec2class.startinstance(instance_choices)
             options.extend(['Start more servers','Exit'])
-        if mainanswers['action'] == 'Stop Instances':
+        if inputs['action'] == 'Stop Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices)
             if getconfirmation(): 
                 ec2class.stopinstance(instance_choices)
             options.extend(['Stop more servers','Exit'])
-        if mainanswers['action'] == 'Terminate Instances':
+        if inputs['action'] == 'Terminate Instances':
             instance_choices = prompt(instance_choice, style=custom_style_2)
             pprint(instance_choices) 
             if getconfirmation():
@@ -266,7 +266,7 @@ def take_action(mainanswers):
 
 
         #########################SECURITY GROUP ################################
-        if mainanswers['action'] == 'Create Security Groups':
+        if inputs['action'] == 'Create Security Groups':
             
             groupname=input("What is the name you want to give to the group? ")
             #vpcid=input("Select the vpc for the Security group") ##currenty manually entering will add vpc selection later
@@ -286,11 +286,11 @@ def take_action(mainanswers):
                     coloredtext("There was an error while creating security group: \n\n\n")
                     print(e)
             options.extend(['Start more servers','Exit'])
-        if mainanswers['action'] == 'List Security Groups':
+        if inputs['action'] == 'List Security Groups':
             ec2class.getsecuritygroups(True)
             
             options.extend(['Create Security Groups','Delete Security Groups','Exit'])
-        if mainanswers['action'] == 'Delete Security Groups':
+        if inputs['action'] == 'Delete Security Groups':
             securitygroup_choices = prompt(securitygroup_choice, style=custom_style_2)
             pprint(securitygroup_choices) 
             if getconfirmation():
@@ -298,7 +298,7 @@ def take_action(mainanswers):
             options.extend(['Delete more securitygroups','Exit'])
 
         #########################KEYPAIRS ################################
-        if mainanswers['action'] == 'Create Keypairs':
+        if inputs['action'] == 'Create Keypairs':
             keyname=input("What is the name of the keypair you want to create? ")
             #path=input("Whre do you want to save the keypair? ")
             if getconfirmation():
@@ -311,11 +311,11 @@ def take_action(mainanswers):
                     print(e)
             #key.save(str(path))
             options.extend(['Create more keypairs','Exit'])
-        if mainanswers['action'] == 'List Keypairs':
+        if inputs['action'] == 'List Keypairs':
             ec2class.getkeypairs(True)
             
             options.extend(['Create Keypairs','Delete Keypairs','Exit'])
-        if mainanswers['action'] == 'Delete Keypairs':
+        if inputs['action'] == 'Delete Keypairs':
             keypair_choices = prompt(keypair_choice, style=custom_style_2)
             pprint(keypair_choices)
             if getconfirmation(): 
@@ -326,8 +326,8 @@ def take_action(mainanswers):
 
     ###########################VPCS################################
 
-    if mainanswers['service'] == 'VPC':
-        if mainanswers['action'] == 'Create VPC':
+    if inputs['service'] == 'VPC':
+        if inputs['action'] == 'Create VPC':
             cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
             #path=input("Whre do you want to save the keypair? ")
             if getconfirmation():
@@ -340,18 +340,18 @@ def take_action(mainanswers):
             #key.save(str(path))
             options.extend(['Create more VPC\'s','Exit'])
        
-        if mainanswers['action'] == 'Delete VPC':
+        if inputs['action'] == 'Delete VPC':
             vpc_choices = prompt(vpc_choice, style=custom_style_2)
             pprint(vpc_choices)
             if getconfirmation(): 
                 ec2class.deletevpc(vpc_choices)
             options.extend(['Delete more VPC\'s','Exit'])
 
-    if mainanswers['action'] == 'Go Back':
-        mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
-        print("incoming")
-        pprint(mainanswers)
-        get_service_data(mainanswers)
+    if inputs['action'] == 'Go Back':
+        
+        
+        
+        main()
 
     return options
 
@@ -361,9 +361,10 @@ def take_action(mainanswers):
 
 
 
-def get_service_data(mainanswers):
+def get_service_data(inputs):
+    
     options = []
-    if mainanswers['service'] == 'S3':
+    if inputs['service'] == 'S3':
         text = colored("\n #############Buckets############ ", 'green', attrs=['reverse', 'blink'])
         print(text +'\n')
         #print()
@@ -372,14 +373,14 @@ def get_service_data(mainanswers):
         
 
     
-    elif mainanswers['service'] == 'EC2':
+    elif inputs['service'] == 'EC2':
         print("\n #############Instances############ \n ")
         ec2class.getinstances(True)
         options.extend(['Run Instances','Start Instances','Stop Instances','Terminate Instances',
         Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypairs',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'])
 
-    elif mainanswers['service'] == 'IAM':
+    elif inputs['service'] == 'IAM':
         print("\n #############Users############ \n ")
         iamclass.getusers(True)
         print("\n #############Groups############ \n ")
@@ -389,12 +390,12 @@ def get_service_data(mainanswers):
         Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
         Separator('---------Policy---------'),'List Policies','Create Policies','Delete Policies','Go Back'])
              
-    elif mainanswers['service'] == 'VPC':
+    elif inputs['service'] == 'VPC':
         print("\n #############VPC's############ \n ")
         ec2class.getvpcs(True)
         
         options.extend(['Create VPC','Delete VPC','Go Back'])
-    elif mainanswers['service'] == 'Exit':
+    elif inputs['service'] == 'Exit':
         sys.exit()
         
         #options.extend(['Create VPC','Delete VPC','Go Back'])
@@ -405,42 +406,7 @@ def get_service_data(mainanswers):
 
 
 ######################## STATIC MAIN OPTIONS #################
-mainquestions = [
-    {
-        'type': 'list',
-        'name': 'service',
-        'message': 'Which AWS service you want to use ?',
-        'choices': [
-            Separator('---------Compute Services---------'),
-            'EC2',
-            'Lambda',
-            Separator('---------Storage Services---------'),
-            'S3',
-            'RDS',
-            Separator('---------Network Services---------'),
-            'Route53',
-            'VPC',
-            Separator('---------Management Services---------'),
-            'IAM',
-            'Cloudwatch',
-            'Exit'
-        ]
-    },
-    {
-        'type': 'list',
-        'name': 'action',
-        'message': "Actions" ,
-        'choices': get_service_data
-        
-    },
-    {
-        'type': 'list',
-        'name': 'next',
-        'message': '>',
-        'choices': take_action
-    },
-  
-]
+
 
 ########################## CONFIRMATION QUESTIONS #############
 confirmquestions = [
@@ -545,21 +511,88 @@ securitygroup_choice=[{
 }
         ]
 
+def getservice():
+
+    mainquestions = [
+    {
+        'type': 'list',
+        'name': 'service',
+        'message': 'Which AWS service you want to use ?',
+        'choices': [
+            Separator('---------Compute Services---------'),
+            'EC2',
+            'Lambda',
+            Separator('---------Storage Services---------'),
+            'S3',
+            'RDS',
+            Separator('---------Network Services---------'),
+            'Route53',
+            'VPC',
+            Separator('---------Management Services---------'),
+            'IAM',
+            'Cloudwatch',
+            'Exit'
+        ]
+    }
+  
+    ]       
+    answers=prompt(mainquestions, style=custom_style_2) # initialize questions
+    return answers['service']
 
 
+
+def gotoservice(service):
+    if service=='S3':
+        text = colored("\n #############Buckets############ ", 'green', attrs=['reverse', 'blink'])
+        print(text +'\n')
+        s3class.getbuckets(True)
+        #
+        s3questions = [
+        {
+        'type': 'list',
+        'name': 'action',
+        'message': 'Which AWS service you want to use ?',
+        'choices': ['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'
+            
+        ]
+        }
+  
+        ]
+        s3prompt=prompt(s3questions, style=custom_style_2)
+        s3action=s3prompt['action']
+        if s3action=='Go Back':
+            main()
+        else:
+            s3actions(s3action)
+    if service=='EC2':
+        text = colored("\n #############Instances############ ", 'green', attrs=['reverse', 'blink'])
+        print(text +'\n')
+        s3class.getbuckets(True)
+        #
+        s3questions = [
+        {
+        'type': 'list',
+        'name': 'action',
+        'message': 'Which AWS service you want to use ?',
+        'choices': ['Create instnace'
+            
+        ]
+        }
+  
+        ]
+        
+
+def s3actions(action):
+
+    print(action)
 ########################## START HERE###################
 
 
 def main():
     os.system('cls')
-    # print (f.renderText('AWS CLI'))
-    # print('A small little CLI to interact with AWS Services')
-    # print('Made with <3 by Darshan Raul \n')   
-
-    mainanswers = prompt(mainquestions, style=custom_style_2) # initialize questions
-
-    pprint(mainanswers) # print questions
-
+    service=getservice()
+    print(service)
+    gotoservice(service)
 
 if __name__ == '__main__':
     main()
