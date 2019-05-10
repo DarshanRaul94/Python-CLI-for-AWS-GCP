@@ -18,6 +18,10 @@ ec2 = boto3.client('ec2')
 
 
 def getinstances(show):
+    """
+    This function is used to get the list of all the instances in EC2 in that region
+
+    """
     serverlist=[]
     count=0
     try:
@@ -37,8 +41,12 @@ def getinstances(show):
     return serverlist
 
 def getsecuritygroups(show):
+    """
+    This function is used to get the list of all the Security Groups in that region
+
+    """
     securitygrouplist=[]
-    count=0
+    
     try:
         securitygroups=ec2.describe_security_groups()
     except botocore.exceptions.ClientError as e:
@@ -55,8 +63,12 @@ def getsecuritygroups(show):
     return securitygrouplist
 
 def getkeypairs(show):
+    """
+    This function is used to get the list of all the keypairs in EC2 in that region
+
+    """
     keypairlist=[]
-    count=0
+    
     try:
         keypairs=ec2.describe_key_pairs()
     except botocore.exceptions.ClientError as e:
@@ -71,8 +83,12 @@ def getkeypairs(show):
     return keypairlist
 
 def getvpcs(show):
+    """
+    This function is used to get the list of all the VPC's in that region
+
+    """
     vpclist=[]
-    count=0
+    
     try:
         vpcs=ec2.describe_vpcs()
     except botocore.exceptions.ClientError as e:
@@ -93,7 +109,9 @@ def getvpcs(show):
 
 
 def startinstance(instance_choices):
-    #print("Starting Instance")
+    """
+    This function is used to start instances by giving/selecting parameters
+    """
     progressbar(" Starting Instance")
     instancename=instance_choices['instance'][0]
     try:
@@ -107,6 +125,9 @@ def startinstance(instance_choices):
                     print(e)    
 
 def stopinstance(instance_choices):
+    """
+    This function is used to stop instances by giving/selecting parameters
+    """
     #print("Stopping Instance")
     progressbar("Stopping Instances")
     instancename=instance_choices['instance'][0]
@@ -120,6 +141,9 @@ def stopinstance(instance_choices):
                     print(e)
 
 def terminateinstance(instance_choices):
+    """
+    This function is used to terminate instances by giving/selecting parameters
+    """
     #print("Terminating Instance")
     progressbar("Terminating Instance")
     instancename=instance_choices['instance'][0]
@@ -134,6 +158,9 @@ def terminateinstance(instance_choices):
 
 
 def deletekeypair(keypair_choices):
+    """
+    This function is used to delete keypair by giving/selecting parameters
+    """
     #print("deleting keypair")
     progressbar("Deleting Keypair")
     keypairname=keypair_choices['keypair'][0]
@@ -146,7 +173,9 @@ def deletekeypair(keypair_choices):
 
 
 def deletevpc(vpc_choices):
-    #print("deleting vpc")
+    """
+    This function is used to delete vpc by giving/selecting parameters
+    """
     progressbar("Deleting VPC")
     vpcname=vpc_choices['vpc'][0]
     try:
@@ -157,7 +186,9 @@ def deletevpc(vpc_choices):
                     print(e)    
 
 def deletesecuritygroup(securitygroup_choices):
-    #print("deleting securitygroup")
+    """
+    This function is used to delete security group by giving/selecting parameters
+    """
     progressbar("Deleting Security Group")
     securitygroupname=securitygroup_choices['securitygroup'][0]
     try:

@@ -18,6 +18,10 @@ iam = boto3.client('iam')
 
 
 def getusers(show):
+    """
+    This function is used to get the list of all users in IAM
+
+    """
     try:
         users=iam.list_users()
     except botocore.exceptions.ClientError as e:
@@ -33,6 +37,10 @@ def getusers(show):
     return userlist
 
 def getgroups(show):
+    """
+    This function is used to get the list of all Groups in IAM
+
+    """
     try:
         groups=iam.list_groups()
     except botocore.exceptions.ClientError as e:
@@ -49,6 +57,10 @@ def getgroups(show):
     return grouplist
 
 def getaccesskeys(show):
+    """
+    This function is used to get the list of all accesskeys
+
+    """
     try:
         accesskeys=iam.list_access_keys()
     except botocore.exceptions.ClientError as e:
@@ -76,7 +88,9 @@ def getaccesskeys(show):
 
 
 def deleteuser(user_choices):
-    #print("deleting user")
+    """
+    This function is used to delete user by giving/selecting parameters
+    """
     progressbar("Deleting user")
     username=user_choices['user'][0]
     try:
@@ -87,7 +101,9 @@ def deleteuser(user_choices):
                     print(e)
 
 def deletegroup(group_choices):
-    #print("deleting group")
+    """
+    This function is used to delete group by giving/selecting parameters
+    """
     progressbar("Deleting Group")
     groupname=group_choices['group'][0]
     try:
@@ -97,7 +113,9 @@ def deletegroup(group_choices):
                     coloredtext("There was an error while deleting group: \n\n\n")
                     print(e)
 def deleteaccesskey(accesskey_choices):
-    #print("deleting group")
+    """
+    This function is used to delete accesskey by giving/selecting parameters
+    """
     progressbar("Deleting Access Key")
     accesskeyname=accesskey_choices['accesskey'][0]
     try:

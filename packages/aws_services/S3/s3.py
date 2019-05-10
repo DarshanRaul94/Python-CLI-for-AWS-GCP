@@ -14,6 +14,10 @@ from ...utlities.progressbar import progressbar
 s3 = boto3.client('s3')
 
 def getbuckets(show):
+    """
+    This function is used to get the list of all buckets in S3
+
+    """
     bucketlist=[]
     try:
         buckets=s3.list_buckets()
@@ -29,7 +33,10 @@ def getbuckets(show):
     return bucketlist
 
 def deletebucket(bucket_choices):
-    #print("deleting bucket")
+    """
+    This function is used to delete the bucket/s in S3
+
+    """
     progressbar("Deleting Bucket")
     
     bucketname=bucket_choices['bucket'][0]
