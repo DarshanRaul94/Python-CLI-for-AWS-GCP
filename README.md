@@ -20,12 +20,11 @@
     - [x] S3
     - [x] IAM
     - [x] EC2        
-- [ ] Add docstring to all functions
+- [x] Add docstring to all functions
 - [ ] Use Spinx or Read the docs to create documentation for the package
-- [ ] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
+- [x] Use the comment tags to filter TODO,Bugs etc in code (https://realpython.com/documenting-python-code/)
 - [x] Have a look at other CLI offerings and look how you can do something different
 - [x] Add confirmation before taking actions
-- [ ] Replace the if statements with switch ## using dictionary or lambda
 - [x] Add loop to go back to main menu if back is pressed
     - [ ] Create fucntion which creates options maybe and then loop around
 - [ ] Integrate pytest to check if code is working

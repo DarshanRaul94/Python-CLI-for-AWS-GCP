@@ -334,7 +334,7 @@ def gotoservice(service):
 
 
 def s3actions(action):
-
+# TODO : resolve Location constraint error (ap-south working)
     if action == 'Create Bucket':
 
         bucket_name=input("What is the name of the bucket you want to create ( Use comma if you want to create multiple buckets): ")###Need to add this functionality later (from mobile app script)
@@ -567,6 +567,7 @@ def iamactions(action):
     
 
 def vpcactions(action):
+    # TODO : resolve issue here
     if action == 'Create VPC':
         cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
         #path=input("Whre do you want to save the keypair? ")
