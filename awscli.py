@@ -825,7 +825,26 @@ def iamactions(action):
     
 
 def vpcactions(action):
-    print(action)
+    if action == 'Create VPC':
+        cidrblock=input("Insert the CIDR block for the vpc example, 10.0.0.0/16 :  ")
+        #path=input("Whre do you want to save the keypair? ")
+        if getconfirmation():
+            try:
+                ec2.create_vpc(
+                CidrBlock=str(cidrblock))
+            except botocore.exceptions.ClientError as e:
+                coloredtext("There was an error while creating VPC: \n\n\n")
+                print(e)
+        #key.save(str(path))
+        confirm_or_exit('VPC')
+       
+    if action == 'Delete VPC':
+        vpc_choices = prompt(vpc_choice, style=custom_style_2)
+        pprint(vpc_choices)
+        if getconfirmation(): 
+            ec2class.deletevpc(vpc_choices)
+        confirm_or_exit('VPC')
+    
     
 
 
