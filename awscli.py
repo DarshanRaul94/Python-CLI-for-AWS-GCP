@@ -363,8 +363,17 @@ def s3actions(action):
                 
             s3class.deletebucket(bucket_choices)
 
-        confirm_or_exit('S3')        
+        confirm_or_exit('S3')    
+
+    if action == 'List Bucket Objects':
+            
+        bucket_choices = prompt(bucket_choice, style=custom_style_2)
+        pprint(bucket_choices)
         
+                
+        s3class.listobjects(bucket_choices)
+
+        confirm_or_exit('S3')      
     
 
 def ec2actions(action):
