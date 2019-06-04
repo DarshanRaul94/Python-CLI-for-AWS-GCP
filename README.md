@@ -5,6 +5,9 @@
 ![Main terminal](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/cli%20main.png)
 ![s3 terminal](https://github.com/darshan-raul/Python-CLI-for-AWS/blob/master/img/cli%20s3.png)
 
+# Why?
+
+Because remembering CLI flags is hard.
 
 # TODO:
 - [x] Create another branch for testing packaging features
