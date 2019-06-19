@@ -2,7 +2,7 @@
 """
 This is the main module where the questions and operations are initialized
 """
-
+## data structure playlist: https://www.youtube.com/playlist?list=PL5tcWHG-UPH112e7AN7C-fwDVPVrt0wpV
 ################ PYenquirer ##################
 from __future__ import print_function, unicode_literals
 
@@ -70,6 +70,9 @@ def group_list(bucket_choices):
     grouplist=iamclass.getgroups(False)
     return grouplist
 
+def role_list(role_choices):
+    rolelist=iamclass.getroles(False)
+    return rolelist
 
 def accesskey_list(accesskey_choices):
     accesskeylist=iamclass.getaccesskeys(False)
@@ -150,6 +153,16 @@ group_choice=[{
 }
         ]
 
+role_choice=[{
+        'type': 'checkbox',
+        'qmark': '😃',
+        'message': 'Select roles',
+        'name': 'role',
+        #'choices': ['test1','test2'],
+        'choices': role_list
+}
+        ] 
+
 accesskey_choice=[{
         'type': 'checkbox',
         'qmark': '😃',
@@ -202,6 +215,18 @@ securitygroup_choice=[{
 }
         ]
 
+
+
+
+
+
+
+
+
+
+
+
+
 def getservice():
 
     mainquestions = [
@@ -247,7 +272,7 @@ def gotoservice(service):
         {
         'type': 'list',
         'name': 'action',
-        'message': 'Which AWS service you want to use ?',
+        'message': 'Which action do you want to make ?',
         'choices': ['Create Bucket','Delete Bucket','List Bucket Objects','Upload file to Bucket','Go Back'
             
         ]
@@ -269,7 +294,7 @@ def gotoservice(service):
         {
         'type': 'list',
         'name': 'action',
-        'message': 'Which AWS service you want to use ?',
+        'message': 'Which action do you want to make ?',
         'choices': ['Run Instances','Start Instances','Stop Instances','Terminate Instances',
         Separator('---------Keypairs---------'),'List Keypairs','Create Keypair','Delete Keypair',
         Separator('---------Security Groups---------'),'List Security Groups','Create Security Groups','Delete Security Groups','Go Back'
@@ -294,7 +319,7 @@ def gotoservice(service):
         {
         'type': 'list',
         'name': 'action',
-        'message': 'Which AWS service you want to use ?',
+        'message': 'Which action do you want to make ?',
         'choices': ['Create User','Create Group','Add User to Group','Delete User','Delete Group',
         Separator('---------Keys---------'),'List Access Keys','Create Access Key','Delete Access Key',
         Separator('---------Roles---------'),'List Roles','Create Roles','Delete Roles',
@@ -317,7 +342,7 @@ def gotoservice(service):
         {
         'type': 'list',
         'name': 'action',
-        'message': 'Which AWS service you want to use ?',
+        'message': 'Which action do you want to make ?',
         'choices': ['Create VPC','Delete VPC','Go Back'
         ]
         }
@@ -373,9 +398,67 @@ def s3actions(action):
                 
         s3class.listobjects(bucket_choices)
 
-        confirm_or_exit('S3')      
+             
+        s3objectquestions = [
+        {
+        'type': 'list',
+        'name': 'objectaction',
+        'message': 'Which action do you want to make ?',
+        'choices': ['Upload object to bucket','Delete Object from Bucket','Download object from Bucket','Go Back'
+        ]
+        }
     
+        ]  
+        def delete_object(bucket_choices):  # inner function Hidden from outer code
+            print(bucket_choices['bucket'][0])
+            object_list=s3class.listobjects(bucket_choices)
+            object_choice=[{
+            'type': 'checkbox',
+            'qmark': '😃',
+            'message': 'Select objects',
+            'name': 'object',
+            #'choices': ['test1','test2'],
+            'choices': object_list
+            }
+            ]
+            object_choices = prompt(object_choice, style=custom_style_2)
+            pprint(object_choices)
+            s3class.deleteobject(bucket_choices,object_choices)
+            confirm_or_exit('S3') 
+        def download_object(bucket_choices):  # inner function Hidden from outer code
+            print(bucket_choices['bucket'][0])
+            object_list=s3class.listobjects(bucket_choices)
+            object_choice=[{
+            'type': 'checkbox',
+            'qmark': '😃',
+            'message': 'Select objects',
+            'name': 'object',
+            #'choices': ['test1','test2'],
+            'choices': object_list
+            }
+            ]
+            object_choices = prompt(object_choice, style=custom_style_2)
+            pprint(object_choices)
+            s3class.download_object(bucket_choices,object_choices)
+            confirm_or_exit('S3') 
+        s3objectprompt=prompt(s3objectquestions, style=custom_style_2)
+        s3objectaction=s3objectprompt['objectaction']
+        if s3objectaction=='Go Back':
+            main()
+        elif s3objectaction=='Delete Object from Bucket':
+            
+            delete_object(bucket_choices)
+            
+        elif s3objectaction=='Download object from Bucket':
 
+            download_object(bucket_choices)
+
+            
+
+
+    if action == 'Delete Object from Bucket':
+        print("test")
+        
 def ec2actions(action):
 
     #####################INSTANCES################
@@ -574,7 +657,18 @@ def iamactions(action):
             iamclass.deleteaccesskey(accesskey_choices)
         confirm_or_exit('IAM')
     
+    if action == 'List Roles':
+            
+        iamclass.getroles(True)
+            
+        confirm_or_exit('IAM')
 
+    if action == 'Delete Roles':
+        role_choices = prompt(role_choice, style=custom_style_2)
+        pprint(role_choices)
+        if getconfirmation():
+                
+            iamclass.deleterole(role_choices)
 def vpcactions(action):
     # TODO : resolve issue here
     if action == 'Create VPC':
@@ -613,6 +707,7 @@ def confirm_or_exit(service):
 
 def main():
     os.system('cls')
+    print(f'AWS CLI')
     service=getservice()
     print(service)
     gotoservice(service)

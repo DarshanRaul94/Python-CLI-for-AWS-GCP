@@ -77,7 +77,24 @@ def getaccesskeys(show):
 
     return accesskeylist
 
+def getroles(show):
+    """
+    This function is used to get the list of all roles in IAM
 
+    """
+    try:
+        roles=iam.list_roles()
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while getting user data: \n\n\n")
+                    print(e)
+    roleslist=[]
+    
+    for role in roles['Roles']:
+        name=role['RoleName']
+        if show:
+            print("> "+name)
+        roleslist.append({"name":name})
+    return roleslist
 
 
 ############################ DELETE FUNCTIONS ################################
@@ -127,3 +144,21 @@ def deleteaccesskey(accesskey_choices):
     except botocore.exceptions.ClientError as e:
                     coloredtext("There was an error while deleting access key: \n\n\n")
                     print(e)
+
+
+def deleterole(role_choices):
+    """
+    This function is used to delete IAM role by giving/selecting parameters
+    """
+    progressbar("Deleting IAM role")
+    rolenames=role_choices['role']
+    try:
+        for rolename in rolenames:
+            iam.delete_role(
+            RoleName=str(rolename)
+            )
+            print("\n \n IAM role " +rolename +" has been deleted \n \n")
+    except botocore.exceptions.ClientError as e:
+                    coloredtext("There was an error while deleting access key: \n\n\n")
+                    print(e)
+
